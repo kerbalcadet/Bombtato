@@ -1,0 +1,7 @@
+"gamemode"
+{
+	"base"		"base"
+	"title"		"Bombtato"
+	"maps"		""
+	"menusystem"	"1"
+}
