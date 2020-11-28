@@ -16,19 +16,20 @@ function ENT:Initialize()
     self:SetArming(false)
     self.last = 0
 
-    timer.Create("Fuse"..self:GetName(), 1, 0, function()
+    local timername = "Fuse"..tostring(self)
+
+    timer.Create(timername, 1, 0, function()
         if not self:IsValid() then return end
         
         local Fuse = self:GetFuse()
         if Fuse > 1 then self:SetFuse(Fuse - 1)
         else 
             self:Detonate()
-            timer.Destroy("Fuse"..self:GetName())
+            timer.Destroy(timername)
          end    
     end
     )
-    timer.Pause("Fuse"..self:GetName())
-
+    timer.Pause(timername)
 
     local phys = self:GetPhysicsObject()
     if(IsValid(phys)) then
@@ -62,7 +63,7 @@ function ENT:Use(activator, caller)
     elseif CurTime() - self.AInit > BOMB_ARMTIME then 
         if not delay then
             self:SetArmed(not armed)
-            timer.Toggle("Fuse"..self:GetName())
+            timer.Toggle("Fuse"..tostring(self))
         end 
         self:SetArming(false)
     elseif  delay then
@@ -79,6 +80,6 @@ function ENT:Detonate()
 
     self:SetColor(Color(50, 50, 50))
 
-    util.BlastDamage(game.GetWorld(), self, self:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD, 1000)
+    util.BlastDamage(game.GetWorld(), self, self:GetPos() + Vector(0, 0, 20), BOMB_DMGRAD, 1000)
     self:Ignite(10, BOMB_DMGRAD)
 end
