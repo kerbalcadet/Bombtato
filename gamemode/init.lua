@@ -4,7 +4,7 @@ AddCSLuaFile("config/fonts.lua")
 
 include("shared.lua")
 include("player.lua")
-include("config/config.lua")
 include("config/commands.lua")
+include("config/config.lua")
 
 math.randomseed(CurTime())

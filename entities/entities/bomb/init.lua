@@ -20,7 +20,11 @@ function ENT:Initialize()
         if not self:IsValid() then return end
         
         local Fuse = self:GetFuse()
-        if Fuse > 1 then self:SetFuse(Fuse - 1) end     
+        if Fuse > 1 then self:SetFuse(Fuse - 1)
+        else 
+            self:Detonate()
+            timer.Destroy("Fuse"..self:GetName())
+         end    
     end
     )
     timer.Pause("Fuse"..self:GetName())
@@ -68,6 +72,13 @@ function ENT:Use(activator, caller)
     self.last = CurTime()
 end
 
-function ENT:Think()
+function ENT:Detonate()
+    --net.Start("Detonation")
+    --net.WriteEntity(self)
+    --net.Broadcast()
 
+    self:SetColor(Color(50, 50, 50))
+
+    util.BlastDamage(game.GetWorld(), self, self:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD, 1000)
+    self:Ignite(10, BOMB_DMGRAD)
 end
