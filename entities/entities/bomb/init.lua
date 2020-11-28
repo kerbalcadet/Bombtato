@@ -11,7 +11,7 @@ function ENT:Initialize()
     self:SetMaterial("phoenix_storms/concrete1", true)
     self:SetUseType(CONTINUOUS_USE)
     
-    self:SetFuse(BOMB_TIME)
+    self:SetFuse(BOMB_FUSE)
     self:SetArmed(false)
     self:SetArming(false)
     self.last = 0
@@ -55,7 +55,7 @@ function ENT:Use(activator, caller)
         self.last = CurTime()
         self.AInit = self.last
         self:SetArming(true)
-    elseif CurTime() - self.AInit > ARM_TIME then 
+    elseif CurTime() - self.AInit > BOMB_ARMTIME then 
         if not delay then
             self:SetArmed(not armed)
             timer.Toggle("Fuse"..self:GetName())
@@ -66,8 +66,6 @@ function ENT:Use(activator, caller)
     end
 
     self.last = CurTime()
-
-    print(self.AInit)
 end
 
 function ENT:Think()

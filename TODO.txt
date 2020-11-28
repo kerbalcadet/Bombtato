@@ -6,3 +6,4 @@
 *Find a cooler font for bomb stuff
 *Figure out how to script custom entities in hammer idk (long-term)
 *Make convar changes refresh ENUMS
+*Add tick, arm, defuse sounds
