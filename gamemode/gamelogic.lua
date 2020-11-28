@@ -1,5 +1,5 @@
 if SERVER then
-    bombs = {}
+    local bombs = {}
     
     function AddBomb(name)
         table.insert(bombs, name)
