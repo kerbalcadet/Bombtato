@@ -35,6 +35,8 @@ function ENT:Initialize()
     if(IsValid(phys)) then
         phys:Wake()
     end
+
+    AddBomb(tostring(self))
 end
 
 function ENT:SpawnFunction(ply, tr, class)
@@ -74,10 +76,8 @@ function ENT:Use(activator, caller)
 end
 
 function ENT:Detonate()
-    --net.Start("Detonation")
-    --net.WriteEntity(self)
-    --net.Broadcast()
-
+    DelBomb(tostring(self))
+    
     self:SetColor(Color(50, 50, 50))
 
     util.BlastDamage(game.GetWorld(), self, self:GetPos() + Vector(0, 0, 20), BOMB_DMGRAD, 1000)
