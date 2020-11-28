@@ -4,4 +4,24 @@
 	"title"		"Bombtato"
 	"maps"		""
 	"menusystem"	"1"
+	"settings"
+	{
+		1
+			{
+				"name"		"bomb_time"
+				"text"		"Fuse Time"
+				"help"		"The initial time in seconds the bombs are set to"
+				"type"		"Numeric"
+				"default"	"60"
+			}
+		
+		2
+			{
+				"name"		"bomb_armtime"
+				"text"		"Arm Time"
+				"help"		"The time in seconds it takes to arm or disarm a bomb"
+				"type"		"Numeric"
+				"default"	"3"
+			}
+	}
 }
