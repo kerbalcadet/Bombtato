@@ -19,7 +19,7 @@ function ENT:Initialize()
     local timername = "Fuse"..tostring(self)
 
     timer.Create(timername, 1, 0, function()
-        if not self:IsValid() then return end
+        if not self:IsValid() or GAME_ENDED then return end
         
         local Fuse = self:GetFuse()
         if Fuse > 1 then self:SetFuse(Fuse - 1)
@@ -77,6 +77,8 @@ function ENT:Use(activator, caller)
 end
 
 function ENT:Detonate()
+    if GAME_ENDED then return end
+    
     --net.Start("Detonation")
     --net.WriteEntity(self)
     --net.Broadcast()
