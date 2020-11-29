@@ -48,7 +48,7 @@ function ENT:SpawnFunction(ply, tr, class)
 
     if ply then 
         ent:SetColor(team.GetColor(ply:Team()))
-        self.team = team.GetName(ply:Team())
+        ent.team = team.GetName(ply:Team())
     end
 
     return ent
