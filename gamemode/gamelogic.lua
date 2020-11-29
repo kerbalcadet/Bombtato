@@ -14,12 +14,7 @@ if SERVER then
         if team then PrintMessage(4, team.." has won!")
         else PrintMessage(4, "Round ended") end
 
-        if !table.IsEmpty(bombs) then
-            for key, bomb in pairs(bombs) do
-                bomb:Remove()
-            end
-        end
-
         table.Empty(bombs)
+        game.CleanUpMap(false)
     end
 end
