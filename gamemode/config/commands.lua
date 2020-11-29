@@ -30,3 +30,7 @@ cvars.AddChangeCallback("bomb_dmgrad", function(n, vo, vn)
         GetConVar("bomb_dmgrad"):SetInt(BOMB_ARMTIME)
     end
 end)
+
+concommand.Add("bomb_restart", function(ply, cmd, args)
+    End()
+end)
