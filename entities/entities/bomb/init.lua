@@ -77,10 +77,10 @@ function ENT:Use(activator, caller)
 end
 
 function ENT:Detonate()
-    DelBomb(self)
-    
     self:SetColor(Color(50, 50, 50))
 
     util.BlastDamage(game.GetWorld(), self, self:GetPos() + Vector(0, 0, 20), BOMB_DMGRAD, 1000)
     self:Ignite(10, BOMB_DMGRAD)
+    
+    DelBomb(self)
 end
