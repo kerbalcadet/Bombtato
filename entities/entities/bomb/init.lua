@@ -35,6 +35,8 @@ function ENT:Initialize()
     if(IsValid(phys)) then
         phys:Wake()
     end
+
+    AddBomb(self)
 end
 
 function ENT:SpawnFunction(ply, tr, class)
@@ -45,6 +47,7 @@ function ENT:SpawnFunction(ply, tr, class)
     ent:SetPos(tr.HitPos)
 
     if ply then ent:SetColor(team.GetColor(ply:Team())) end
+    self.team = team.GetName(ply:Team())
 
     return ent
 
