@@ -46,8 +46,10 @@ function ENT:SpawnFunction(ply, tr, class)
     ent:Spawn()
     ent:SetPos(tr.HitPos)
 
-    if ply then ent:SetColor(team.GetColor(ply:Team())) end
-    self.team = team.GetName(ply:Team())
+    if ply then 
+        ent:SetColor(team.GetColor(ply:Team()))
+        self.team = team.GetName(ply:Team())
+    end
 
     return ent
 
