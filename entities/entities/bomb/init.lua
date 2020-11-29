@@ -81,10 +81,6 @@ end
 function ENT:Detonate()
     if GAME_ENDED then return end
     
-    --net.Start("Detonation")
-    --net.WriteEntity(self)
-    --net.Broadcast()
-    
     DelBomb(self)
     
     local husk = ents.Create("prop_physics")
