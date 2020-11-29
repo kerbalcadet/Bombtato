@@ -81,14 +81,16 @@ function ENT:Detonate()
     --net.WriteEntity(self)
     --net.Broadcast()
     
-    self:Remove()
+    DelBomb(self)
     
     local husk = ents.Create("prop_physics")
     husk:SetModel("models/props_junk/TrashDumpster01a.mdl")
     husk:SetPos(self:GetPos() + Vector(0, 0, 10))
     husk:SetMaterial("phoenix_storms/concrete1")
     husk:SetColor(Color(50,50,50))
-    husk:Spawn()    
+    husk:Spawn()
+
+    self:Remove()    
 
     util.BlastDamage(game.GetWorld(), husk, husk:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD, 200)
     husk:Ignite(10, BOMB_DMGRAD)
