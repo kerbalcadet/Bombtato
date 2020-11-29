@@ -7,9 +7,12 @@ function AddBomb(bomb)
 end
 
 function DelBomb(bomb)
+    local tmp = {}
     for k, v in pairs(bombs) do
-        if not IsValid(v) then table.remove(bombs, k) end
+        if IsValid(v) then table.insert(tmp, v) end
     end
+    bombs = tmp
+
     if #bombs <= 1 then End(bombs[1].team) return end
 
     table.remove(bombs, table.KeyFromValue(bombs, bomb))
