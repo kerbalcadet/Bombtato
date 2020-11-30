@@ -15,6 +15,7 @@ function ENT:Initialize()
     self:SetArmed(false)
     self:SetArming(false)
     self.last = 0
+    self.cursnd = 0
 
     local timername = "Fuse"..tostring(self)
 
@@ -23,7 +24,7 @@ function ENT:Initialize()
         
         local Fuse = self:GetFuse()
         if Fuse > 1 then self:SetFuse(Fuse - 1)
-        else 
+        else
             self:Detonate()
             timer.Destroy(timername)
          end    
@@ -99,4 +100,12 @@ function ENT:Detonate()
 
     phys:SetMass(800)
     phys:ApplyForceOffset(VectorRand(0, 30000) + Vector(0, 0, 150000), phys:GetPos() + phys:GetMassCenter() + VectorRand(-3, 3))
+end
+
+function ENT:Think()
+    if self:GetArming() then self.cursnd = self:StartLoopingSound("arming")
+    else
+        self:StopLoopingSound(self.cursnd)
+        self.cursnd = 0
+    end
 end
