@@ -106,5 +106,5 @@ function ENT:Detonate()
     if not IsValid(phys) then return end
 
     phys:SetMass(800)
-    phys:ApplyForceOffset(VectorRand(0, 30000) + Vector(0, 0, 150000), phys:GetPos() + phys:GetMassCenter() + VectorRand(-3, 3))
+    phys:ApplyForceOffset(VectorRand(0, 30000) + Vector(0, 0, 220000), phys:GetPos() + phys:GetMassCenter() + VectorRand(-2, 2))
 end
