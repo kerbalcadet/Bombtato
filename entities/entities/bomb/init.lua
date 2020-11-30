@@ -39,7 +39,7 @@ function ENT:Initialize()
     AddBomb(self)
 end
 
-function ENT:SpawnFunction(ply, tr, class)
+function ENT:SpawnFunction(ply, tr, class)       --TEMP
     if not tr.Hit then return end
 
     local ent = ents.Create(class)
@@ -55,24 +55,30 @@ function ENT:SpawnFunction(ply, tr, class)
 
 end
 
-function ENT:Use(activator, caller)
+function ENT:Use(activator, caller)                                 --arm/disarm
     if GAME_ENDED then return end
 
     if not caller:IsValid() or not caller:IsPlayer() then return end
 
     local arming = self:GetArming()
     local armed = self:GetArmed()
+    local sameteam = (team.GetName(caller:Team()) == self.team)
 
-    if not arming then 
-        self.a_init = CurTime()
-        self:SetArming(true)
-    elseif CurTime() - self.a_init > BOMB_ARMTIME then 
-        self:SetArmed(not armed)
-        timer.Toggle("Fuse"..tostring(self))
-        timer.Destroy("stoparming")
-        self:SetArming(false)
+    if (armed and sameteam) or (not armed and not sameteam) then
+
+        if not arming then 
+            self.a_init = CurTime()
+            self:SetArming(true)
+
+        elseif CurTime() - self.a_init > BOMB_ARMTIME then 
+            self:SetArmed(not armed)
+            self:SetArming(false)
+
+            timer.Toggle("Fuse"..tostring(self))
+            timer.Destroy("stoparming")
+        end
     end
-    
+
     timer.Destroy("stoparming")
     timer.Create("stoparming", 0.1, 1, function() self:SetArming(false) end)
 end
