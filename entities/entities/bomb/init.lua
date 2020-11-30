@@ -56,26 +56,24 @@ function ENT:SpawnFunction(ply, tr, class)
 end
 
 function ENT:Use(activator, caller)
+    if GAME_ENDED then return end
+
     if not caller:IsValid() or not caller:IsPlayer() then return end
+
     local arming = self:GetArming()
     local armed = self:GetArmed()
-    local delay = CurTime() - self.last > 0.1
 
     if not arming then 
-        self.last = CurTime()
-        self.AInit = self.last
+        self.a_init = CurTime()
         self:SetArming(true)
-    elseif CurTime() - self.AInit > BOMB_ARMTIME then 
-        if not delay then
-            self:SetArmed(not armed)
-            timer.Toggle("Fuse"..tostring(self))
-        end 
-        self:SetArming(false)
-    elseif  delay then
+    elseif CurTime() - self.a_init > BOMB_ARMTIME then 
+        self:SetArmed(not armed)
+        timer.Toggle("Fuse"..tostring(self)) 
         self:SetArming(false)
     end
-
-    self.last = CurTime()
+    
+    timer.Destroy("stoparming")
+    timer.Create("stoparming", 0.1, 1, function() self:SetArming(false) end)
 end
 
 function ENT:Detonate()
