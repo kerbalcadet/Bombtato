@@ -68,7 +68,8 @@ function ENT:Use(activator, caller)
         self:SetArming(true)
     elseif CurTime() - self.a_init > BOMB_ARMTIME then 
         self:SetArmed(not armed)
-        timer.Toggle("Fuse"..tostring(self)) 
+        timer.Toggle("Fuse"..tostring(self))
+        timer.Destroy("stoparming")
         self:SetArming(false)
     end
     
