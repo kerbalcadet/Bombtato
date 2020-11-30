@@ -48,7 +48,7 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 
     if ply then 
         ent:SetColor(team.GetColor(ply:Team()))
-        ent.team = team.GetName(ply:Team())
+        ent.team = ply:Team()
     end
 
     return ent
@@ -62,7 +62,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
 
     local arming = self:GetArming()
     local armed = self:GetArmed()
-    local sameteam = (team.GetName(caller:Team()) == self.team)
+    local sameteam = caller:Team() == self.team
 
     if (armed and sameteam) or (not armed and not sameteam) then
 
