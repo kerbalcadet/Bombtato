@@ -91,8 +91,16 @@ function ENT:Detonate()
 
     self:Remove()    
 
+    local data = EffectData()
+    data:SetOrigin(husk:GetPos())
+    data:SetFlags(0x4)
+    util.Effect("Explosion", data)
+    util.ScreenShake(husk:GetPos(), 10, 10, 2, 2000)
+    util.ScreenShake(husk:GetPos(), 3, 10, 2, 5000)
+    husk:EmitSound("ambient/explosions/explode_1.wav", 85, 100, 1)
+    husk:EmitSound("ambient/explosions/exp3.wav", 120, 130, 1)
     util.BlastDamage(game.GetWorld(), husk, husk:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD, 200)
-    husk:Ignite(10, BOMB_DMGRAD)
+    husk:Ignite(10, BOMB_DMGRAD/2)
     
     local phys = husk:GetPhysicsObject()
     if not IsValid(phys) then return end
