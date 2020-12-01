@@ -10,4 +10,5 @@ function ENT:SetupDataTables()
     self:NetworkVar("Int", 0, "Fuse")
     self:NetworkVar("Bool", 0, "Armed")
     self:NetworkVar("Bool", 1, "Arming")
+    self:NetworkVar("Int", 1, "Team")
 end

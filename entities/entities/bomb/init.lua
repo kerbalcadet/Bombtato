@@ -14,7 +14,6 @@ function ENT:Initialize()
     self:SetFuse(BOMB_FUSE)
     self:SetArmed(false)
     self:SetArming(false)
-    self.last = 0
 
     local timername = "Fuse"..tostring(self)
 
@@ -48,7 +47,7 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 
     if ply then 
         ent:SetColor(team.GetColor(ply:Team()))
-        ent.team = ply:Team()
+        ent:SetTeam(ply:Team())
     end
 
     return ent
@@ -62,7 +61,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
 
     local arming = self:GetArming()
     local armed = self:GetArmed()
-    local sameteam = caller:Team() == self.team
+    local sameteam = caller:Team() == self:GetTeam()
 
     if (armed and sameteam) or (not armed and not sameteam) then
 

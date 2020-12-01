@@ -13,10 +13,10 @@ function DelBomb(bomb)
     end
     bombs = tmp
 
-    if #bombs <= 1 then End(bombs[1].team) return end
+    if #bombs <= 1 then End(bombs[1]:GetTeam()) return end
 
     table.remove(bombs, table.KeyFromValue(bombs, bomb))
-    if #bombs <= 1 then End(bombs[1].team) end
+    if #bombs <= 1 then End(bombs[1]:GetTeam()) end
 end
 
 function End(team)
