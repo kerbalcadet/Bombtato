@@ -14,8 +14,12 @@ function ENT:Draw()
     local FW = surface.GetTextSize(Fuse)
 
     surface.SetFont("FONTSMALL")
+    local Sameteam = LocalPlayer():Team() == self:GetTeam()
     local Armed = self:GetArmed()
-    local AStr = Armed and "Hold E to defuse" or "Hold E to arm"
+    local AStr = ""
+    if Sameteam then 
+        AStr = Armed and "Hold E to defuse" or "Safe!"
+    else AStr = Armed and "Armed!" or "Hold E to arm" end
     local AW = surface.GetTextSize(AStr)
 
     cam.Start3D2D(Pos + self:GetForward()*20 + self:GetUp()*15, Ang, 0.1)
