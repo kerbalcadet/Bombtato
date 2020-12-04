@@ -5,7 +5,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_1.wav"
     }
 )
@@ -17,7 +16,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_2.wav"
     }
 )
@@ -29,7 +27,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_3.wav"
     }
 )
@@ -41,7 +38,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_4.wav"
     }
 )
@@ -53,7 +49,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_5.wav"
     }
 )
@@ -65,7 +60,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_6.wav"
     }
 )
@@ -77,7 +71,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_7.wav"
     }
 )
@@ -89,7 +82,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_8.wav"
     }
 )
@@ -101,7 +93,6 @@ sound.Add(
         volume = 1.0,
         level = 300,
         pitch = {90, 110},
-        dsp = 1,
         sound = "ambient/explosions/explode_9.wav"
     }
 )
