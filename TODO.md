@@ -1,6 +1,6 @@
-- [x] Add function for bomb exploding
+- [x] ~~Add function for bomb exploding~~
 - [ ] Add custom UI + scoreboard
-- [x] Change bomb behavior to team-based arming
+- [x] ~~Change bomb behavior to team-based arming~~
 - [ ] Steal filesystem shit from old gamemode for spawns and locations
 - [ ] Create system for delegating teams
 - [ ] Find a cooler font for bomb stuff
