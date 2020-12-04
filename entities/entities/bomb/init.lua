@@ -14,11 +14,8 @@ function ENT:Initialize()
     self:SetFuse(BOMB_FUSE)
     self:SetArmed(false)
     self:SetArming(false)
-<<<<<<< HEAD
-=======
     self.last = 0
     self.cursnd = 0
->>>>>>> Implement arming sound
 
     local timername = "Fuse"..tostring(self)
 
@@ -49,6 +46,7 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
     local ent = ents.Create(class)
     ent:Spawn()
     ent:SetPos(tr.HitPos)
+    ent:SetAngles(Angle(0, ply:GetAimVector():Angle().yaw - 180, 0))
 
     if ply then 
         ent:SetColor(team.GetColor(ply:Team()))
