@@ -6,5 +6,5 @@
 - [ ] Find a cooler font for bomb stuff
 - [ ] Figure out how to script custom entities in hammer idk (long-term)
 - [ ] Make convar changes refresh ENUMS
-- [ ] **(IN PROGRESS)** Add tick, ~~arm, defuse~~ sounds
+- [x] ~~Add tick, arm, defuse sounds~~
 - [x] **(Rework IN PROGRESS to allow random sounds)** Add explode sounds
