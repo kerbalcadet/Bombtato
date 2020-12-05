@@ -31,6 +31,17 @@ cvars.AddChangeCallback("bomb_dmgrad", function(n, vo, vn)
     end
 end)
 
+CreateConVar("bomb_team_arm", "0", FCVAR_NONE, "Allow bomb to be armed by own team", 0, 1)
+
+cvars.AddChangeCallback("bomb_team_arm", function(n, vo, vn)
+    local num = tonumber(vn)
+    if num then BOMB_TEAM_ARM = num
+    else
+        print([[server cvar "bomb_team_arm" can only be set to numeric values]]) 
+        GetConVar("bomb_team_arm"):SetInt(BOMB_TEAM_ARM)
+    end
+end)
+
 concommand.Add("bomb_restart", function(ply, cmd, args)
     End()
 end)
