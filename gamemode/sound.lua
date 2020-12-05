@@ -104,7 +104,7 @@ sound.Add(
         volume = 1.0,
         level = 75,
         pitch = 100,
-        sound ="ambient/machines/keyboard_fast3_1second.wav"
+        sound = "ambient/machines/keyboard_fast3_1second.wav"
     }
 )
 
@@ -113,8 +113,9 @@ sound.Add(
         name = "armed",
         channel = CHAN_AUTO,
         volume = 1.0,
-        level = 75,
+        level = 120,
         pitch = 100,
-        sound ="ambient/machines/keyboard7_clicks_enter.wav"
+        --sound = "ambient/machines/keyboard7_clicks_enter.wav"
+        sound = "buttons/button24.wav"
     }
 )

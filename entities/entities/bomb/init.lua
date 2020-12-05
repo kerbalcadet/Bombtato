@@ -75,7 +75,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
         elseif CurTime() - self.a_init > BOMB_ARMTIME then 
             self:SetArmed(not armed)
             self:SetArming(false)
-
+            self:EmitSound("armed")
             timer.Toggle("Fuse"..tostring(self))
             timer.Destroy("stoparming")
         end
