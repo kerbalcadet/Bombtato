@@ -14,8 +14,6 @@ function ENT:Initialize()
     self:SetFuse(BOMB_FUSE)
     self:SetArmed(false)
     self:SetArming(false)
-    self.last = 0
-    self.cursnd = 0
 
     local timername = "Fuse"..tostring(self)
 
@@ -71,9 +69,9 @@ function ENT:Use(activator, caller)                                 --arm/disarm
         if not arming then 
             self.a_init = CurTime()
             self:SetArming(true)
-            self.cursnd = self:StartLoopingSound("arming")
+            --self.cursnd = self:StartLoopingSound("arming")
 
-        elseif CurTime() - self.a_init > BOMB_ARMTIME then 
+        elseif CurTime() - self.a_init > BOMB_ARMTIME then
             self:SetArmed(not armed)
             self:SetArming(false)
             self:EmitSound("armed")
@@ -122,12 +120,11 @@ function ENT:Detonate()
     phys:ApplyForceOffset(VectorRand(0, 30000) + Vector(0, 0, 220000), phys:GetPos() + phys:GetMassCenter() + VectorRand(-2, 2))
 end
 
---[[
+
 function ENT:Think()
-    if self:GetArming() then self.cursnd = self:StartLoopingSound("arming")
-    else
+    if self:GetArming() then self.cursnd = self:StartLoopingSound("arming") end
+    --[[else
         self:StopLoopingSound(self.cursnd)
         self.cursnd = 0
-    end
+    end]]
 end
-]]--
