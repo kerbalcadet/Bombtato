@@ -66,7 +66,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
     local armed = self:GetArmed()
     local sameteam = caller:Team() == self:GetTeam()
 
-    if (armed and sameteam) or (not armed and not sameteam) then
+    if (armed and sameteam) or (not armed and (not sameteam or tobool(BOMB_TEAM_ARM))) then
 
         if not arming then 
             self.a_init = CurTime()
