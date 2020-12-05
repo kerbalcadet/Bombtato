@@ -20,7 +20,7 @@ function DelBomb(bomb)
 end
 
 function End(teamindex)
-    if teamindex then PrintMessage(4, team.GetName(teamindex).." has won!")
+    if teamindex then PrintMessage(10, team.GetName(teamindex).." has won!")
     else PrintMessage(4, "Round ended") end
 
     GAME_ENDED = true
