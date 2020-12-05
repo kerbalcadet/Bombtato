@@ -49,5 +49,4 @@ concommand.Add("bomb_teamchange", function(ply) --TEMP
     until(curteam ~= ply:Team())
 
     ply:SetTeam(curteam)
-    ply:KillSilent()
 end)
