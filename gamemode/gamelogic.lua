@@ -19,8 +19,8 @@ function DelBomb(bomb)
     if #bombs <= 1 then End(bombs[1]:GetTeam()) end
 end
 
-function End(team)
-    if team then PrintMessage(4, team.." has won!")
+function End(teamindex)
+    if teamindex then PrintMessage(4, team.GetName(teamindex).." has won!")
     else PrintMessage(4, "Round ended") end
 
     GAME_ENDED = true
