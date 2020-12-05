@@ -115,7 +115,29 @@ sound.Add(
         volume = 1.0,
         level = 120,
         pitch = 100,
-        --sound = "ambient/machines/keyboard7_clicks_enter.wav"
-        sound = "buttons/button24.wav"
+        --sound = "buttons/button4.wav" -- da real shiz
+        sound = "hl1/fvox/activated.wav" -- lol
+    }
+)
+
+sound.Add(
+    {
+        name = "defused",
+        channel = CHAN_AUTO,
+        volume = 1.0,
+        level = 120,
+        pitch = 100,
+        --sound = "buttons/button4.wav" -- da real shiz
+        sound = "hl1/fvox/deactivated.wav" -- lol
+    }
+)
+sound.Add(
+    {
+        name = "tick",
+        channel = CHAN_AUTO,
+        volume = 1.0,
+        level = 70,
+        pitch = 100,
+        sound = "weapons/pistol/pistol_empty.wav"
     }
 )
