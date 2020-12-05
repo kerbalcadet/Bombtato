@@ -83,7 +83,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
     timer.Destroy("stoparming")
     timer.Create("stoparming", 0.1, 1, function() 
         self:SetArming(false)
-        self:StopLoopingSound(self.cursnd)
+        if self.cursnd then self:StopLoopingSound(self.cursnd) end
      end)
 end
 
