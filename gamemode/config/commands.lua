@@ -45,3 +45,7 @@ end)
 concommand.Add("bomb_restart", function(ply, cmd, args)
     End()
 end)
+
+concommand.Add("bomb_teamchange", function(ply) --TEMP
+    ply:SetTeam(math.random(1, 4))
+end)
