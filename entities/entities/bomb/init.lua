@@ -77,6 +77,12 @@ function ENT:Use(activator, caller)                                 --arm/disarm
             timer.Toggle("Fuse"..tostring(self))
             timer.Destroy("stoparming")
             timer.Simple(0.2, function() self:EmitSound("armed") end)
+
+            if tobool(BOMB_NOTIFY and self:GetArmed()) then
+                for k, ply in pairs(team.GetPlayers(self:GetTeam())) do
+                    ply:PrintMessage(HUD_PRINTCENTER, "Your bomb is Armed!")
+                end
+            end
         end
     end
 
