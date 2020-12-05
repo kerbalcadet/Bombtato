@@ -76,14 +76,14 @@ function ENT:Use(activator, caller)                                 --arm/disarm
             self:SetArming(false)
             timer.Toggle("Fuse"..tostring(self))
             timer.Destroy("stoparming")
+            timer.Simple(0.2, function() self:EmitSound("armed") end)
         end
     end
 
     timer.Destroy("stoparming")
-    timer.Create("stoparming", 0.1, 1, function() 
+    timer.Create("stoparming", 0.01, 1, function() 
         self:SetArming(false)
         self:StopLoopingSound(self.cursnd)
-        self:EmitSound("armed")
      end)
 end
 
