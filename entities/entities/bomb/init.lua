@@ -25,7 +25,9 @@ function ENT:Initialize()
         else
             self:Detonate()
             timer.Destroy(timername)
-         end    
+         end
+
+         if Fuse % 2 == 0 then self:EmitSound("tick") end
     end
     )
     timer.Pause(timername)
@@ -76,9 +78,11 @@ function ENT:Use(activator, caller)                                 --arm/disarm
             self:SetArming(false)
             timer.Toggle("Fuse"..tostring(self))
             timer.Destroy("stoparming")
-            timer.Simple(0.2, function() self:EmitSound("armed") end)
+            timer.Simple(0.2, function()
+                self:EmitSound(self:GetArmed() and "armed" or "defused")
+            end)
 
-            if tobool(BOMB_NOTIFY and self:GetArmed()) then
+            if tobool(BOMB_NOTIFY) and self:GetArmed() then
                 for k, ply in pairs(team.GetPlayers(self:GetTeam())) do
                     ply:PrintMessage(HUD_PRINTCENTER, "Your bomb is Armed!")
                 end
@@ -128,8 +132,4 @@ end
 
 function ENT:Think()
     if self:GetArming() then self.cursnd = self:StartLoopingSound("arming") end
-    --[[else
-        self:StopLoopingSound(self.cursnd)
-        self.cursnd = 0
-    end]]
 end
