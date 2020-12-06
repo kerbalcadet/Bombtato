@@ -37,6 +37,12 @@ cvars.AddChangeCallback("bomb_team_arm", function(n, vo, vn)
     BOMB_TEAM_ARM = CVValid(vn, "bomb_team_arm", BOMB_TEAM_ARM)
 end)
 
+CreateConVar("bomb_numteams", "4", FCVAR_NONE, "Number of teams", 2, 4)
+
+cvars.AddChangeCallback("bomb_numteams", function(n, vo, vn)
+    BOMB_NUMTEAMS = CVValid(vn, "bomb_numteams", BOMB_NUMTEAMS)
+end)
+
 concommand.Add("bomb_restart", function(ply, cmd, args)
     End()
 end)
@@ -45,7 +51,7 @@ concommand.Add("bomb_teamchange", function(ply) --TEMP
     local curteam = ply:Team()
 
     repeat
-        curteam = math.random(1, 4)
+        curteam = ACTIVETEAMS[math.random(1, #ACTIVETEAMS)]
     until(curteam ~= ply:Team())
 
     ply:SetTeam(curteam)

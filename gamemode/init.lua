@@ -10,3 +10,4 @@ include("gamelogic.lua")
 include("sound.lua")
 
 math.randomseed(CurTime())
+SetActiveTeams()

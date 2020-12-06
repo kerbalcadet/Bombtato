@@ -1,3 +1,14 @@
+ACTIVETEAMS = {}
+
+function SetActiveTeams()
+    -- for i = 1, BOMB_NUMTEAMS do -- lua is ghey and won't allow this
+    for i = 1, 4 do
+        table.insert(ACTIVETEAMS, i)
+
+        if #ACTIVETEAMS == BOMB_NUMTEAMS then break end
+    end
+end
+
 GAME_ENDED = false
 
 local bombs = {}
@@ -28,6 +39,15 @@ function End(teamindex)
     timer.Simple(10, function()
         table.Empty(bombs)
         game.CleanUpMap(false)
+
+        if #ACTIVETEAMS ~= BOMB_NUMTEAMS then
+            table.Empty(ACTIVETEAMS)
+            SetActiveTeams()
+        end
+        
+        for k, ply in pairs(player.GetAll()) do
+            ply:Spawn()
+        end
         GAME_ENDED = false
     end)
 end
