@@ -2,7 +2,7 @@
 - [ ] Add custom UI + scoreboard
 - [x] ~~Change bomb behavior to team-based arming~~
 - [ ] Steal filesystem shit from old gamemode for spawns and locations
-- [ ] Create system for delegating teams
+- [x] ~~Create system for delegating teams~~
 - [ ] Find a cooler font for bomb stuff
 - [ ] Figure out how to script custom entities in hammer idk (long-term)
 - [ ] Make convar changes refresh ENUMS
