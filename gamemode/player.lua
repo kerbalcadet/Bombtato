@@ -1,5 +1,5 @@
 function GM:PlayerInitialSpawn(ply)
-    -- ply:SetTeam(math.random(1, 4))
+    ply:SetTeam(math.random(1, 4))
 end
 
 function GM:PlayerSpawn(ply)
@@ -13,7 +13,7 @@ function GM:PlayerSpawn(ply)
     ply:Give("weapon_crowbar")
     ply:GiveAmmo(100, "SMG1")
 
-    ply:SetTeam(math.random(1, 4))
+    -- ply:SetTeam(math.random(1, 4))
     local pteam = ply:Team()
 
     ply:SendLua([[chat.AddText(team.GetColor(]]..pteam..[[), "team "..team.GetName(]]..pteam..[[))]])

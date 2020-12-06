@@ -22,10 +22,12 @@ function ENT:Initialize()
         
         local Fuse = self:GetFuse()
         if Fuse > 1 then self:SetFuse(Fuse - 1)
-        else 
+        else
             self:Detonate()
             timer.Destroy(timername)
-         end    
+         end
+
+         if Fuse % 2 == 0 then self:EmitSound("tick") end
     end
     )
     timer.Pause(timername)
@@ -44,6 +46,7 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
     local ent = ents.Create(class)
     ent:Spawn()
     ent:SetPos(tr.HitPos)
+    ent:SetAngles(Angle(0, ply:GetAimVector():Angle().yaw - 180, 0))
 
     if ply then 
         ent:SetColor(team.GetColor(ply:Team()))
@@ -63,23 +66,35 @@ function ENT:Use(activator, caller)                                 --arm/disarm
     local armed = self:GetArmed()
     local sameteam = caller:Team() == self:GetTeam()
 
-    if (armed and sameteam) or (not armed and not sameteam) then
+    if (armed and sameteam) or (not armed and (not sameteam or tobool(BOMB_TEAM_ARM))) then
 
         if not arming then 
             self.a_init = CurTime()
             self:SetArming(true)
+            --self.cursnd = self:StartLoopingSound("arming")
 
-        elseif CurTime() - self.a_init > BOMB_ARMTIME then 
+        elseif CurTime() - self.a_init > BOMB_ARMTIME then
             self:SetArmed(not armed)
             self:SetArming(false)
-
             timer.Toggle("Fuse"..tostring(self))
             timer.Destroy("stoparming")
+            timer.Simple(0.2, function()
+                self:EmitSound(self:GetArmed() and "armed" or "defused")
+            end)
+
+            if tobool(BOMB_NOTIFY) and self:GetArmed() then
+                for k, ply in pairs(team.GetPlayers(self:GetTeam())) do
+                    ply:PrintMessage(HUD_PRINTCENTER, "Your bomb is Armed!")
+                end
+            end
         end
     end
 
     timer.Destroy("stoparming")
-    timer.Create("stoparming", 0.1, 1, function() self:SetArming(false) end)
+    timer.Create("stoparming", 0.1, 1, function() 
+        self:SetArming(false)
+        if self.cursnd then self:StopLoopingSound(self.cursnd) end
+     end)
 end
 
 function ENT:Detonate()
@@ -112,4 +127,9 @@ function ENT:Detonate()
 
     phys:SetMass(800)
     phys:ApplyForceOffset(VectorRand(0, 30000) + Vector(0, 0, 220000), phys:GetPos() + phys:GetMassCenter() + VectorRand(-2, 2))
+end
+
+
+function ENT:Think()
+    if self:GetArming() then self.cursnd = self:StartLoopingSound("arming") end
 end
