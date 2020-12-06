@@ -26,5 +26,8 @@ function GM:PlayerSpawn(ply)
         pteam = ply:Team()
     end
 
+    ply:SetModel("models/player/police.mdl")
+    ply:SetMaterial("models/debug/debugwhite")
+    ply:SetColor(team.GetColor(pteam))
     ply:SendLua([[chat.AddText(team.GetColor(]]..pteam..[[), "team "..team.GetName(]]..pteam..[[))]])
 end
