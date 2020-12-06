@@ -39,8 +39,12 @@ function End(teamindex)
     timer.Simple(10, function()
         table.Empty(bombs)
         game.CleanUpMap(false)
-        table.Empty(ACTIVETEAMS)
-        SetActiveTeams()
+
+        if #ACTIVETEAMS ~= BOMB_NUMTEAMS then
+            table.Empty(ACTIVETEAMS)
+            SetActiveTeams()
+        end
+        
         for k, ply in pairs(player.GetAll()) do
             ply:Spawn()
         end
