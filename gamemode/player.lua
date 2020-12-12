@@ -19,7 +19,6 @@ function GM:PlayerSpawn(ply)
     ply:Give("weapon_crowbar")
     ply:GiveAmmo(100, "SMG1")
 
-    -- ply:SetTeam(math.random(1, 4))
     local pteam = ply:Team()
     if not table.HasValue(ACTIVETEAMS, pteam) then
         SelectTeam(ply)
@@ -27,7 +26,10 @@ function GM:PlayerSpawn(ply)
     end
 
     ply:SetModel("models/player/police.mdl")
-    ply:SetMaterial("models/debug/debugwhite")
-    ply:SetColor(team.GetColor(pteam))
+    -- thanks to https://github.com/TheOnly8Z/sbtm/blob/master/lua/sbtm/sh_util.lua
+    local pcolor = team.GetColor(pteam)
+    local pcolorv =  Vector(pcolor.r/255, pcolor.g/255, pcolor.b/255)
+    ply:SetPlayerColor(pcolorv)
+    
     ply:SendLua([[chat.AddText(team.GetColor(]]..pteam..[[), "team "..team.GetName(]]..pteam..[[))]])
 end
