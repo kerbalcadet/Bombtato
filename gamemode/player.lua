@@ -25,7 +25,11 @@ function GM:PlayerSpawn(ply)
         pteam = ply:Team()
     end
 
-    ply:SetModel("models/player/police.mdl")
+    --ply:SetModel("models/player/police.mdl")
+    local pms = player_manager.AllValidModels()
+    local pmv, pmk = table.Random(pms)
+    ply:SetModel(pmv)
+
     -- thanks to https://github.com/TheOnly8Z/sbtm/blob/master/lua/sbtm/sh_util.lua
     local pcolor = team.GetColor(pteam)
     local pcolorv =  Vector(pcolor.r/255, pcolor.g/255, pcolor.b/255)
