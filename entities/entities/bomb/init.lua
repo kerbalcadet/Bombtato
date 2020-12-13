@@ -133,3 +133,7 @@ end
 function ENT:Think()
     if self:GetArming() then self.cursnd = self:StartLoopingSound("arming") end
 end
+
+function ENT:OnRemove()
+    if not table.IsEmpty(BOMB:GetBombs()) then BOMB:DelBomb(self) end
+end
