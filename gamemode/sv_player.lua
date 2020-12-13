@@ -1,5 +1,25 @@
+local function ChangePlayerModel(ply)
+    --ply:SetModel("models/player/police.mdl")
+    local pms = player_manager.AllValidModels()
+    local validpms = {}
+    for pmk, pmv in pairs(pms) do
+        if string.match(pmk, "male") or string.match(pmk, "police") then table.insert(validpms, pmv) end
+    end
+    local pmv, pmk = table.Random(validpms)
+    ply:SetModel(pmv)
+end
+
+local function ChangePlayerColor(ply, pteam)
+    -- thanks to https://github.com/TheOnly8Z/sbtm/blob/master/lua/sbtm/sh_util.lua
+    local pcolor = team.GetColor(pteam)
+    local pcolorv =  Vector(pcolor.r/255, pcolor.g/255, pcolor.b/255)
+    ply:SetPlayerColor(pcolorv)
+end
+
 function GM:PlayerInitialSpawn(ply)
     BOMB:SelectTeam(ply)
+    
+    ChangePlayerModel(ply)
 end
 
 function GM:PlayerSpawn(ply)
@@ -13,20 +33,10 @@ function GM:PlayerSpawn(ply)
     ply:Give("weapon_crowbar")
     ply:GiveAmmo(100, "SMG1")
 
-    --ply:SetModel("models/player/police.mdl")
-    local pms = player_manager.AllValidModels()
-    local validpms = {}
-    for pmk, pmv in pairs(pms) do
-        if string.match(pmk, "male") or string.match(pmk, "police") then table.insert(validpms, pmv) end
-    end
-    local pmv, pmk = table.Random(validpms)
-    ply:SetModel(pmv)
+    ChangePlayerColor(ply, ply:Team())
+end
 
-    -- thanks to https://github.com/TheOnly8Z/sbtm/blob/master/lua/sbtm/sh_util.lua
-    local pteam = ply:Team()
-    local pcolor = team.GetColor(pteam)
-    local pcolorv =  Vector(pcolor.r/255, pcolor.g/255, pcolor.b/255)
-    ply:SetPlayerColor(pcolorv)
-    
-    ply:SendLua([[chat.AddText(team.GetColor(]]..pteam..[[), "team "..team.GetName(]]..pteam..[[))]])
+function GM:PlayerChangedTeam(ply, oldteam, newteam)
+    ChangePlayerColor(ply, newteam)
+    ply:SendLua([[chat.AddText(team.GetColor(]]..newteam..[[), "team "..team.GetName(]]..newteam..[[))]])
 end
