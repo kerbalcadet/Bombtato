@@ -38,5 +38,5 @@ end
 
 function GM:PlayerChangedTeam(ply, oldteam, newteam)
     ChangePlayerColor(ply, newteam)
-    ply:SendLua([[chat.AddText(team.GetColor(]]..newteam..[[), "team "..team.GetName(]]..newteam..[[))]])
+    if newteam ~= TEAM_UNASSIGNED then ply:SendLua([[chat.AddText(team.GetColor(]]..newteam..[[), "team "..team.GetName(]]..newteam..[[))]]) end
 end
