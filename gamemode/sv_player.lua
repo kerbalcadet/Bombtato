@@ -32,6 +32,7 @@ function GM:PlayerSpawn(ply)
     ply:Give("weapon_physcannon")
     ply:Give("weapon_crowbar")
     ply:GiveAmmo(100, "SMG1")
+    ply:GiveAmmo(3, "SMG1_Grenade")
 
     ChangePlayerColor(ply, ply:Team())
 end
