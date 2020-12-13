@@ -5,4 +5,4 @@ GM.Website = "N/A"
 
 DeriveGamemode("sandbox")
 
-BOMB = BOMB or {}
+BOMB = BOMB or GAMEMODE
