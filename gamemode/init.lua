@@ -10,4 +10,7 @@ include("gamelogic.lua")
 include("../content/sound.lua")
 
 math.randomseed(CurTime())
-SetActiveTeams()
+
+function GM:Initialize()
+    BOMB:SetActiveTeams()
+end
