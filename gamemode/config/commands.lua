@@ -51,7 +51,7 @@ concommand.Add("bomb_teamchange", function(ply) --TEMP
     local curteam = ply:Team()
 
     repeat
-        curteam = ACTIVETEAMS[math.random(1, #ACTIVETEAMS)]
+        curteam = math.random(1, BOMB_NUMTEAMS)
     until(curteam ~= ply:Team())
 
     ply:SetTeam(curteam)
