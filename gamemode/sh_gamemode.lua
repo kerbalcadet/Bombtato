@@ -15,4 +15,4 @@ hook.Add("CreateTeams", "BOMB", function()
     team.SetUp(4, "Yellow", Color(p, p, s), 1)
 end)
 
-BOMB = BOMB or {}
+BOMB = BOMB or GAMEMODE
