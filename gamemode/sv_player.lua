@@ -1,11 +1,5 @@
-local function SelectTeam(ply)
-    for k, v in pairs(ACTIVETEAMS) do
-        if team.NumPlayers(ACTIVETEAMS[1]) == team.NumPlayers(ACTIVETEAMS[#ACTIVETEAMS]) or (team.NumPlayers(v) < team.NumPlayers(v - 1)) then ply:SetTeam(v) break end
-    end
-end
-
 function GM:PlayerInitialSpawn(ply)
-    SelectTeam(ply)
+    BOMB:SelectTeam(ply)
 end
 
 function GM:PlayerSpawn(ply)
@@ -19,23 +13,17 @@ function GM:PlayerSpawn(ply)
     ply:Give("weapon_crowbar")
     ply:GiveAmmo(100, "SMG1")
 
-    local pteam = ply:Team()
-    if not table.HasValue(ACTIVETEAMS, pteam) then
-        SelectTeam(ply)
-        pteam = ply:Team()
-    end
-
     --ply:SetModel("models/player/police.mdl")
     local pms = player_manager.AllValidModels()
     local validpms = {}
     for pmk, pmv in pairs(pms) do
         if string.match(pmk, "male") or string.match(pmk, "police") then table.insert(validpms, pmv) end
     end
-
     local pmv, pmk = table.Random(validpms)
     ply:SetModel(pmv)
 
     -- thanks to https://github.com/TheOnly8Z/sbtm/blob/master/lua/sbtm/sh_util.lua
+    local pteam = ply:Team()
     local pcolor = team.GetColor(pteam)
     local pcolorv =  Vector(pcolor.r/255, pcolor.g/255, pcolor.b/255)
     ply:SetPlayerColor(pcolorv)

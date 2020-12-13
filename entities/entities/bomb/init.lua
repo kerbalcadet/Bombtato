@@ -18,7 +18,7 @@ function ENT:Initialize()
     local timername = "Fuse"..tostring(self)
 
     timer.Create(timername, 1, 0, function()
-        if not self:IsValid() or GAME_ENDED then return end
+        if not self:IsValid() or tobool(BOMB:GameOver()) then return end
         
         local Fuse = self:GetFuse()
         if Fuse > 1 then self:SetFuse(Fuse - 1)
@@ -58,7 +58,7 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 end
 
 function ENT:Use(activator, caller)                                 --arm/disarm
-    if GAME_ENDED then return end
+    if tobool(BOMB:GameOver()) then return end
 
     if not caller:IsValid() or not caller:IsPlayer() then return end
 
@@ -98,7 +98,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
 end
 
 function ENT:Detonate()
-    if GAME_ENDED then return end
+    if tobool(BOMB:GameOver()) then return end
     
     DelBomb(self)
     
