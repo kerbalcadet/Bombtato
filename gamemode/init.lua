@@ -15,5 +15,4 @@ include("sv_player.lua")
 
 function GM:Initialize()
     math.randomseed(CurTime())
-    --BOMB = BOMB or {}
 end
