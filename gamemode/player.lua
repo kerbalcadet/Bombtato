@@ -27,7 +27,12 @@ function GM:PlayerSpawn(ply)
 
     --ply:SetModel("models/player/police.mdl")
     local pms = player_manager.AllValidModels()
-    local pmv, pmk = table.Random(pms)
+    local validpms = {}
+    for pmk, pmv in pairs(pms) do
+        if string.match(pmk, "male") or string.match(pmk, "police") then table.insert(validpms, pmv) end
+    end
+
+    local pmv, pmk = table.Random(validpms)
     ply:SetModel(pmv)
 
     -- thanks to https://github.com/TheOnly8Z/sbtm/blob/master/lua/sbtm/sh_util.lua
