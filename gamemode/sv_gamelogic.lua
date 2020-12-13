@@ -16,6 +16,8 @@ function End(teamindex)
         for _, ply in pairs(player.GetAll()) do ply:SetTeam(TEAM_UNASSIGNED) end
         for _, ply in pairs(player.GetAll()) do
             BOMB:SelectTeam(ply)
+            ply:StripWeapons()
+            ply:StripAmmo()
             ply:Spawn()
         end
         
