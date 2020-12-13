@@ -37,7 +37,7 @@ function ENT:Initialize()
         phys:Wake()
     end
 
-    AddBomb(self)
+    BOMB:AddBomb(self)
 end
 
 function ENT:SpawnFunction(ply, tr, class)       --TEMP
@@ -100,7 +100,7 @@ end
 function ENT:Detonate()
     if tobool(BOMB:GameOver()) then return end
     
-    DelBomb(self)
+    BOMB:DelBomb(self)
     
     local husk = ents.Create("prop_physics")
     husk:SetModel("models/props_junk/TrashDumpster01a.mdl")
