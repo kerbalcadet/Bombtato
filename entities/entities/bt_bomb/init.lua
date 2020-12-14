@@ -58,7 +58,6 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 end
 
 function ENT:RoundSpawn(team, spawn)
-    local ent = ents.Create("bt_bomb")
     ent:Spawn()
     ent:SetPos(spawn:GetPos())
     ent:SetAngles(spawn:GetAngles())
