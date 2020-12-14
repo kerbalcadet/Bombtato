@@ -9,6 +9,7 @@ include("sv_bombs.lua")
 include("sv_gamelogic.lua")
 include("sv_player.lua")
 include("sv_teams.lua")
+include("sv_spawns.lua")
 
 function GM:Initialize()
     math.randomseed(CurTime())

@@ -3,6 +3,9 @@ local gameover = false
 function BOMB:GameOver() return gameover end
 
 function BOMB:Start()
+    BOMB:InitSpawns()
+    BOMB:SpawnBombs()
+
     for _, ply in pairs(player.GetAll()) do
         BOMB:SelectTeam(ply)
         ply:StripWeapons()
