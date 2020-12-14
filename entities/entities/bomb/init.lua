@@ -11,14 +11,14 @@ function ENT:Initialize()
     self:SetMaterial("phoenix_storms/concrete1", true)
     self:SetUseType(CONTINUOUS_USE)
     
-    self:SetFuse(BOMB_FUSE)
+    self:SetFuse(BOMB_FUSE:GetInt())
     self:SetArmed(false)
     self:SetArming(false)
 
     local timername = "Fuse"..tostring(self)
 
     timer.Create(timername, 1, 0, function()
-        if not self:IsValid() or GAME_ENDED then return end
+        if not self:IsValid() or tobool(BOMB:GameOver()) then return end
         
         local Fuse = self:GetFuse()
         if Fuse > 1 then self:SetFuse(Fuse - 1)
@@ -37,7 +37,7 @@ function ENT:Initialize()
         phys:Wake()
     end
 
-    AddBomb(self)
+    BOMB:AddBomb(self)
 end
 
 function ENT:SpawnFunction(ply, tr, class)       --TEMP
@@ -58,7 +58,7 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 end
 
 function ENT:Use(activator, caller)                                 --arm/disarm
-    if GAME_ENDED then return end
+    if tobool(BOMB:GameOver()) then return end
 
     if not caller:IsValid() or not caller:IsPlayer() then return end
 
@@ -66,14 +66,14 @@ function ENT:Use(activator, caller)                                 --arm/disarm
     local armed = self:GetArmed()
     local sameteam = caller:Team() == self:GetTeam()
 
-    if (armed and sameteam) or (not armed and (not sameteam or tobool(BOMB_TEAM_ARM))) then
+    if (armed and sameteam) or (not armed and (not sameteam or BOMB_TEAM_ARM:GetBool())) then
 
         if not arming then 
             self.a_init = CurTime()
             self:SetArming(true)
             --self.cursnd = self:StartLoopingSound("arming")
 
-        elseif CurTime() - self.a_init > BOMB_ARMTIME then
+        elseif CurTime() - self.a_init > BOMB_ARMTIME:GetInt() then
             self:SetArmed(not armed)
             self:SetArming(false)
             timer.Toggle("Fuse"..tostring(self))
@@ -82,7 +82,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
                 self:EmitSound(self:GetArmed() and "armed" or "defused")
             end)
 
-            if tobool(BOMB_NOTIFY) and self:GetArmed() then
+            if BOMB_NOTIFY:GetBool() and self:GetArmed() then
                 for k, ply in pairs(team.GetPlayers(self:GetTeam())) do
                     ply:PrintMessage(HUD_PRINTCENTER, "Your bomb is Armed!")
                 end
@@ -98,9 +98,9 @@ function ENT:Use(activator, caller)                                 --arm/disarm
 end
 
 function ENT:Detonate()
-    if GAME_ENDED then return end
+    if tobool(BOMB:GameOver()) then return end
     
-    DelBomb(self)
+    BOMB:DelBomb(self)
     
     local husk = ents.Create("prop_physics")
     husk:SetModel("models/props_junk/TrashDumpster01a.mdl")
@@ -119,8 +119,8 @@ function ENT:Detonate()
     util.ScreenShake(husk:GetPos(), 3, 10, 2, 5000)
     husk:EmitSound("ambient/explosions/explode_1.wav", 85, 100, 1)
     husk:EmitSound("ambient/explosions/exp3.wav", 120, 130, 1)
-    util.BlastDamage(game.GetWorld(), husk, husk:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD, 200)
-    husk:Ignite(10, BOMB_DMGRAD/2)
+    util.BlastDamage(game.GetWorld(), husk, husk:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD:GetInt(), 200)
+    husk:Ignite(10, BOMB_DMGRAD:GetInt()/2)
     
     local phys = husk:GetPhysicsObject()
     if not IsValid(phys) then return end
@@ -132,4 +132,8 @@ end
 
 function ENT:Think()
     if self:GetArming() then self.cursnd = self:StartLoopingSound("arming") end
+end
+
+function ENT:OnRemove()
+    if not table.IsEmpty(BOMB:GetBombs()) then BOMB:DelBomb(self) end
 end

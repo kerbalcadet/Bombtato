@@ -1,0 +1,3 @@
+function BOMB:InitSpawns()
+
+end
