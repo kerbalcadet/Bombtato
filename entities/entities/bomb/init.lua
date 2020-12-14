@@ -66,7 +66,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
     local armed = self:GetArmed()
     local sameteam = caller:Team() == self:GetTeam()
 
-    if (armed and sameteam) or (not armed and (not sameteam or tobool(BOMB_TEAM_ARM:GetInt()))) then
+    if (armed and sameteam) or (not armed and (not sameteam or BOMB_TEAM_ARM:GetBool())) then
 
         if not arming then 
             self.a_init = CurTime()
@@ -82,7 +82,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
                 self:EmitSound(self:GetArmed() and "armed" or "defused")
             end)
 
-            if tobool(BOMB_NOTIFY:GetInt()) and self:GetArmed() then
+            if BOMB_NOTIFY:GetBool() and self:GetArmed() then
                 for k, ply in pairs(team.GetPlayers(self:GetTeam())) do
                     ply:PrintMessage(HUD_PRINTCENTER, "Your bomb is Armed!")
                 end
