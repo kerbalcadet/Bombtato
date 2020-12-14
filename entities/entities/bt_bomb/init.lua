@@ -57,12 +57,12 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 
 end
 
-function ENT:SVSpawn(spawn)
+function ENT:SVSpawn(spawn, steam)
     self:Spawn()
     self:SetPos(spawn:GetPos() + Vector(0, 0, 21))
     self:SetAngles(spawn:GetAngles())
-    self:SetTeam(spawn.bteam)
-    self:SetColor(team.GetColor(spawn.bteam))
+    self:SetTeam(steam)
+    self:SetColor(team.GetColor(steam))
 end
 
 function ENT:Use(activator, caller)                                 --arm/disarm
