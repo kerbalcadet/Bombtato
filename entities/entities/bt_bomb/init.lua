@@ -57,6 +57,15 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 
 end
 
+function ENT:RoundSpawn(team, spawn)
+    local ent = ents.Create("bt_bomb")
+    ent:Spawn()
+    ent:SetPos(spawn:GetPos())
+    ent:SetAngles(spawn:GetAngles())
+    ent:SetTeam(team)
+    ent:SetColor(team.GetColor(team))
+end
+
 function ENT:Use(activator, caller)                                 --arm/disarm
     if tobool(BOMB:GameOver()) then return end
 
