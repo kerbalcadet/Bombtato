@@ -4,7 +4,6 @@ AddCSLuaFile("sh_gamemode.lua")
 
 include("../content/sound.lua")
 include("config/commands.lua")
-include("config/config.lua")
 include("sh_gamemode.lua")
 include("sv_bombs.lua")
 include("sv_gamelogic.lua")

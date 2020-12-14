@@ -11,7 +11,7 @@ function ENT:Initialize()
     self:SetMaterial("phoenix_storms/concrete1", true)
     self:SetUseType(CONTINUOUS_USE)
     
-    self:SetFuse(BOMB_FUSE)
+    self:SetFuse(BOMB_FUSE:GetInt())
     self:SetArmed(false)
     self:SetArming(false)
 
@@ -66,14 +66,14 @@ function ENT:Use(activator, caller)                                 --arm/disarm
     local armed = self:GetArmed()
     local sameteam = caller:Team() == self:GetTeam()
 
-    if (armed and sameteam) or (not armed and (not sameteam or tobool(BOMB_TEAM_ARM))) then
+    if (armed and sameteam) or (not armed and (not sameteam or tobool(BOMB_TEAM_ARM:GetInt()))) then
 
         if not arming then 
             self.a_init = CurTime()
             self:SetArming(true)
             --self.cursnd = self:StartLoopingSound("arming")
 
-        elseif CurTime() - self.a_init > BOMB_ARMTIME then
+        elseif CurTime() - self.a_init > BOMB_ARMTIME:GetInt() then
             self:SetArmed(not armed)
             self:SetArming(false)
             timer.Toggle("Fuse"..tostring(self))
@@ -82,7 +82,7 @@ function ENT:Use(activator, caller)                                 --arm/disarm
                 self:EmitSound(self:GetArmed() and "armed" or "defused")
             end)
 
-            if tobool(BOMB_NOTIFY) and self:GetArmed() then
+            if tobool(BOMB_NOTIFY:GetInt()) and self:GetArmed() then
                 for k, ply in pairs(team.GetPlayers(self:GetTeam())) do
                     ply:PrintMessage(HUD_PRINTCENTER, "Your bomb is Armed!")
                 end
@@ -119,8 +119,8 @@ function ENT:Detonate()
     util.ScreenShake(husk:GetPos(), 3, 10, 2, 5000)
     husk:EmitSound("ambient/explosions/explode_1.wav", 85, 100, 1)
     husk:EmitSound("ambient/explosions/exp3.wav", 120, 130, 1)
-    util.BlastDamage(game.GetWorld(), husk, husk:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD, 200)
-    husk:Ignite(10, BOMB_DMGRAD/2)
+    util.BlastDamage(game.GetWorld(), husk, husk:GetPos() + Vector(0, 0, 50), BOMB_DMGRAD:GetInt(), 200)
+    husk:Ignite(10, BOMB_DMGRAD:GetInt()/2)
     
     local phys = husk:GetPhysicsObject()
     if not IsValid(phys) then return end
