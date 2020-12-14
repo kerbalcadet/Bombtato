@@ -7,7 +7,7 @@ BOMB_TEAM_ARM = CreateConVar("bomb_team_arm", "0", FCVAR_NONE, "Allow bomb to be
 BOMB_NUMTEAMS = CreateConVar("bomb_numteams", "4", FCVAR_NONE, "Number of teams", 2, 4)
 
 concommand.Add("bomb_restart", function(ply, cmd, args)
-    End()
+    BOMB:End()
 end)
 
 concommand.Add("bomb_teamchange", function(ply) --TEMP
