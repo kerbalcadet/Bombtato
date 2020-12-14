@@ -11,10 +11,10 @@ function BOMB:DelBomb(bomb)
     end
     bombs = tmp
 
-    if #bombs <= 1 then End(bombs[1]:GetTeam()) return end
+    if #bombs <= 1 then BOMB:End(bombs[1]:GetTeam()) return end
 
     table.remove(bombs, table.KeyFromValue(bombs, bomb))
-    if #bombs <= 1 then End(bombs[1]:GetTeam()) end
+    if #bombs <= 1 then BOMB:End(bombs[1]:GetTeam()) end
 end
 
 function BOMB:EmptyBombs() table.Empty(bombs) end

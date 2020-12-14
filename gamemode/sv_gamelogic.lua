@@ -2,7 +2,18 @@ local gameover = false
 
 function BOMB:GameOver() return gameover end
 
-function End(teamindex)
+function BOMB:Start()
+    for _, ply in pairs(player.GetAll()) do
+        BOMB:SelectTeam(ply)
+        ply:StripWeapons()
+        ply:StripAmmo()
+        ply:Spawn()
+    end
+
+    gameover = false
+end
+
+function BOMB:End(teamindex)
     if teamindex then PrintMessage(4, team.GetName(teamindex).." has won!")
     else PrintMessage(4, "Round ended") end
 
@@ -14,13 +25,6 @@ function End(teamindex)
         game.CleanUpMap(false)
 
         for _, ply in pairs(player.GetAll()) do ply:SetTeam(TEAM_UNASSIGNED) end
-        for _, ply in pairs(player.GetAll()) do
-            BOMB:SelectTeam(ply)
-            ply:StripWeapons()
-            ply:StripAmmo()
-            ply:Spawn()
-        end
-        
-        gameover = false
+        BOMB:Start()
     end)
 end

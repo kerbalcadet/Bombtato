@@ -12,4 +12,5 @@ include("sv_teams.lua")
 
 function GM:Initialize()
     math.randomseed(CurTime())
+    BOMB:Start()
 end
