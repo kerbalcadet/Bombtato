@@ -57,7 +57,7 @@ function ENT:SpawnFunction(ply, tr, class)       --TEMP
 
 end
 
-function ENT:RoundSpawn(team, spawn)
+function ENT:SVSpawn(team, spawn)
     ent:Spawn()
     ent:SetPos(spawn:GetPos())
     ent:SetAngles(spawn:GetAngles())
