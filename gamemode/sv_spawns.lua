@@ -13,32 +13,31 @@ local function SortSpawns(bomb, spawns)
 end
 
 function BOMB:InitSpawns()
-    --init
-    
-    bspawns = {}
-    tspawns = {}
+    table.Empty(bspawns)
+    table.Empty(tspawns)
+
     local spawns = ents.FindByClass("info_player_*")
-    local sn = BOMB_NUMTEAMS:GetInt()
+    local nt = BOMB_NUMTEAMS:GetInt()
+    local spi = math.random(1, #spawns)
+    local sp = spawns[spi]
 
-    for i=1, sn do
-        local n = math.random(1, #spawns)
-        local s = spawns[n]
+    table.insert(bspawns, sp)
+    table.remove(spawns, spi)
 
-        table.insert(bspawns, s)
+    local dtable = SortSpawns(bspawns[1], spawns)
+
+    for i = 2, nt do
+        local curspi = table.KeyFromValue(spawns, dtable[#dtable/(i - 1)])
+
+        table.insert(bspawns, spawns[curspi])
+        table.remove(spawns, curspi)
     end
 
-    --distribute bombs
+    for i = 1, nt do
+        dtable = SortSpawns(bspawns[i], spawns)
 
-    for i = 1, 5 do
-        if #spawns < BOMB_NUMTEAMS:GetInt() then break end
-
-        for j = 1, #bspawns do
-            local sortall = SortSpawns(bspawns[j], spawns)
-            local sortbmb = SortSpawns(bspawns[j], bspawns)
-            local n = math.Round(#sortall/#bspawns + 1)
-
-            table.insert(bspawns, sortall[n])
-            table.remove(bspawns, table.KeyFromValue(bspawns, sortbmb[1]))
+        for i = 1, #dtable/nt do
+            -- placeholder to distribute tspawns
         end
     end
 end
