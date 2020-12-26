@@ -44,3 +44,9 @@ function GM:PlayerChangedTeam(ply, oldteam, newteam)
     ChangePlayerColor(ply, newteam)
     if newteam ~= TEAM_UNASSIGNED then ply:SendLua([[chat.AddText(team.GetColor(]]..newteam..[[), "team "..team.GetName(]]..newteam..[[))]]) end
 end
+
+function GM:PlayerSelectSpawn(ply)
+    local validspawns = BOMB:GetTeamSpawns()[ply:Team()]
+    
+    return validspawns[math.random(1, #validspawns)]
+end

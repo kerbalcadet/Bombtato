@@ -35,9 +35,9 @@ function BOMB:InitSpawns()
 
     for i = 1, nt do
         dtable = SortSpawns(bspawns[i], spawns)
-
-        for i = 1, #dtable/nt do
-            -- placeholder to distribute tspawns
+        tspawns[i] = {}
+        for j = 1, math.floor(#dtable/nt) do
+            table.insert(tspawns[i], dtable[j])
         end
     end
 end
