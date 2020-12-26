@@ -5,6 +5,7 @@ BOMB_DMGRAD = CreateConVar("bomb_dmgrad", "500", FCVAR_NONE, "Radius in units of
 BOMB_NOTIFY = CreateConVar("bomb_notify", "1", FCVAR_NONE, "Notify team when bomb armed", 0, 1)
 BOMB_TEAM_ARM = CreateConVar("bomb_team_arm", "0", FCVAR_NONE, "Allow bomb to be armed by own team", 0, 1)
 BOMB_NUMTEAMS = CreateConVar("bomb_numteams", "4", FCVAR_NONE, "Number of teams", 2, 4)
+BOMB_DBG_SPAWNS = CreateConVar("bomb_dbgspawns", "0", FCVAR_NONE, "Debug team spawn locations", 0, 1)
 
 concommand.Add("bomb_restart", function(ply, cmd, args)
     BOMB:End()

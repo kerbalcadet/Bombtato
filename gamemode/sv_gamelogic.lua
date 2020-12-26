@@ -6,6 +6,8 @@ function BOMB:Start()
     BOMB:InitSpawns()
     BOMB:SpawnBombs()
 
+    if BOMB_DBG_SPAWNS:GetBool() then BOMB:DebugSpawns() end
+
     for _, ply in pairs(player.GetAll()) do
         BOMB:SelectTeam(ply)
         ply:StripWeapons()
