@@ -17,6 +17,9 @@ local function ChangePlayerColor(ply, pteam)
 end
 
 function GM:PlayerInitialSpawn(ply)
+    ply:AllowFlashlight(true)
+    ply:ShouldDropWeapon(true)
+    
     BOMB:SelectTeam(ply)
     
     ChangePlayerModel(ply)
@@ -33,7 +36,6 @@ function GM:PlayerSpawn(ply)
     ply:Give("weapon_crowbar")
     ply:GiveAmmo(100, "SMG1")
     ply:GiveAmmo(3, "SMG1_Grenade")
-    ply:ShouldDropWeapon(true)
 
     ChangePlayerColor(ply, ply:Team())
 end
