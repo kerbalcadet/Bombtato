@@ -13,5 +13,7 @@ include("sv_spawns.lua")
 
 function GM:Initialize()
     math.randomseed(CurTime())
-    BOMB:Start()
 end
+
+hook.Add("InitPostEntity", "init", function() BOMB:Start() end)
+
