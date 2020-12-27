@@ -48,24 +48,22 @@ function BOMB:DebugSpawns()
     local tsp = BOMB:GetTeamSpawns()
 
     for _, spawn in pairs(ents.FindByClass("info_player_*")) do
-        local spmdl = ents.Create("prop_physics")
-        spmdl:PhysicsInit(SOLID_NONE)
-        spmdl:SetCollisionGroup(COLLISION_GROUP_WORLD)
-        spmdl:SetPos(spawn:GetPos())
-        spmdl:SetModel("models/props_wasteland/medbridge_post01.mdl")
-        spmdl:SetMaterial("models/debug/debugwhite")
+        if not table.HasValue(bspawns, spawn) then
+            local spmdl = ents.Create("prop_physics")
+            spmdl:PhysicsInit(SOLID_NONE)
+            spmdl:SetCollisionGroup(COLLISION_GROUP_WORLD)
+            spmdl:SetPos(spawn:GetPos())
+            spmdl:SetModel("models/props_wasteland/medbridge_post01.mdl")
+            spmdl:SetMaterial("models/debug/debugwhite")
 
-        -- set models to be transparent until discovered in team spawns, so bomb spawns are not visible
-        spmdl:SetColor(Color(0, 0, 0, 0))
-        spmdl:SetRenderMode(RENDERMODE_TRANSCOLOR)
-        
-        for i = 1, #tsp do
-            for j = 1, #(tsp[i]) do
-                if tsp[i][j] == spawn then spmdl:SetColor(team.GetColor(i)) break end
+            for i = 1, #tsp do
+                for j = 1, #(tsp[i]) do
+                    if tsp[i][j] == spawn then spmdl:SetColor(team.GetColor(i)) break end
+                end
             end
+            
+            spmdl:Spawn()
         end
-        
-        spmdl:Spawn()
     end
 end
 
