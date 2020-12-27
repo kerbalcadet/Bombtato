@@ -27,7 +27,7 @@ function BOMB:InitSpawns()
     local dtable = SortSpawns(bspawns[1], spawns)
 
     for i = 2, nt do
-        local curspi = table.KeyFromValue(spawns, dtable[#dtable/(i - 1)])
+        local curspi = table.KeyFromValue(spawns, dtable[math.floor(#dtable/(i - 1))])
 
         table.insert(bspawns, spawns[curspi])
         table.remove(spawns, curspi)
@@ -47,7 +47,7 @@ function BOMB:DebugSpawns()
     -- spawn a colored monolith at each valid team spawn with the color of the team allowed to use it
     local tsp = BOMB:GetTeamSpawns()
 
-    for _, spawn in pairs(ents.FindByClass("info_player_start")) do
+    for _, spawn in pairs(ents.FindByClass("info_player_*")) do
         local spmdl = ents.Create("prop_physics")
         spmdl:PhysicsInit(SOLID_NONE)
         spmdl:SetCollisionGroup(COLLISION_GROUP_WORLD)
