@@ -19,6 +19,7 @@ end
 function GM:PlayerInitialSpawn(ply)
     ply:AllowFlashlight(true)
     ply:ShouldDropWeapon(true)
+    ply:SetNoCollideWithTeammates(true)
     
     BOMB:SelectTeam(ply)
     
