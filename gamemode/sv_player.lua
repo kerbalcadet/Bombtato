@@ -32,22 +32,38 @@ function GM:PlayerSpawn(ply)
     ply:SetRunSpeed(400)
     ply:SetJumpPower(200)
 
-    ply:Give("weapon_smg1")
-    ply:Give("weapon_physcannon")
-    ply:Give("weapon_crowbar")
-    ply:GiveAmmo(100, "SMG1")
-    ply:GiveAmmo(3, "SMG1_Grenade")
+    ply:StripWeapons()
+    ply:StripAmmo()
 
-    ChangePlayerColor(ply, ply:Team())
+    if (ply:Team() >= 1) and (ply:Team() <= 4) then
+        ply:GodDisable()
+        ply:SetColor()
+
+        ply:Give("weapon_smg1")
+        ply:Give("weapon_physcannon")
+        ply:Give("weapon_crowbar")
+        ply:GiveAmmo(100, "SMG1")
+        ply:GiveAmmo(3, "SMG1_Grenade")
+
+        ChangePlayerColor(ply, ply:Team())
+    end
 end
 
 function GM:PlayerChangedTeam(ply, oldteam, newteam)
     ChangePlayerColor(ply, newteam)
-    if newteam ~= TEAM_UNASSIGNED then ply:SendLua([[chat.AddText(team.GetColor(]]..newteam..[[), "team "..team.GetName(]]..newteam..[[))]]) end
+    if newteam ~= TEAM_SPECTATOR then ply:SendLua([[chat.AddText(team.GetColor(]]..newteam..[[), "team "..team.GetName(]]..newteam..[[))]]) end
 end
 
 function GM:PlayerSelectSpawn(ply)
     local validspawns = BOMB:GetTeamSpawns()[ply:Team()]
     
     return validspawns[math.random(1, #validspawns)]
+end
+
+function BOMB:MakeSpectator(ply)
+    ply:SetTeam(TEAM_SPECTATOR)
+    ply:GodEnable()
+    ply:SetColor(Color(0, 0, 0, 0))
+    ply:SetRenderMode(RENDERMODE_TRANSCOLOR)
+    ply:Spawn()
 end

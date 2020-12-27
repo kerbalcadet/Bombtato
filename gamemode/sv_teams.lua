@@ -9,3 +9,8 @@ function BOMB:SelectTeam(ply)
         ti = ti % nt + 1
     end
 end
+
+function BOMB:RemoveTeam(teamindex)
+    BOMB:DelTeamSpawns(teamindex)
+    for _, ply in pairs(team.GetPlayers(teamindex)) do BOMB:MakeSpectator(ply) end
+end
