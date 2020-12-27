@@ -108,8 +108,6 @@ end
 function ENT:Detonate()
     if tobool(BOMB:GameOver()) then return end
     
-    BOMB:DelBomb(self)
-    
     local husk = ents.Create("prop_physics")
     husk:SetModel("models/props_junk/TrashDumpster01a.mdl")
     husk:SetPos(self:GetPos() + Vector(0, 0, 10))
