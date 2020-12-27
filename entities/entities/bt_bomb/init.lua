@@ -66,7 +66,7 @@ function ENT:SVSpawn(spawn, steam)
 end
 
 function ENT:Use(activator, caller)                                 --arm/disarm
-    if tobool(BOMB:GameOver()) then return end
+    if tobool(BOMB:GameOver()) or (activator:Team() == TEAM_SPECTATOR) then return end
 
     if not caller:IsValid() or not caller:IsPlayer() then return end
 
@@ -115,7 +115,8 @@ function ENT:Detonate()
     husk:SetColor(Color(50,50,50))
     husk:Spawn()
 
-    self:Remove()    
+    BOMB:RemoveTeam(self:GetTeam())
+    self:Remove()
 
     local data = EffectData()
     data:SetOrigin(husk:GetPos())
