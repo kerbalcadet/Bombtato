@@ -33,12 +33,13 @@ function BOMB:InitSpawns()
         table.remove(spawns, curspi)
     end
 
-    for i = 1, nt do
-        dtable = SortSpawns(bspawns[i], spawns)
-        tspawns[i] = {}
-        for j = 1, math.floor(#dtable/nt) do
-            table.insert(tspawns[i], dtable[j])
-        end
+    local ti = 1
+    while(not table.IsEmpty(spawns)) do
+        if not tspawns[ti] then tspawns[ti] = {} end
+        dtable = SortSpawns(bspawns[ti], spawns)
+        table.insert(tspawns[ti], dtable[1])
+        table.remove(spawns, table.KeyFromValue(spawns, dtable[1]))
+        ti = ti % nt + 1
     end
 end
 
@@ -54,7 +55,7 @@ function BOMB:DebugSpawns()
         spmdl:SetModel("models/props_wasteland/medbridge_post01.mdl")
         spmdl:SetMaterial("models/debug/debugwhite")
 
-        -- set models to be transparent until discovered in team spawns, so bomb spawns and unused (excess) spawns are not visible
+        -- set models to be transparent until discovered in team spawns, so bomb spawns are not visible
         spmdl:SetColor(Color(0, 0, 0, 0))
         spmdl:SetRenderMode(RENDERMODE_TRANSCOLOR)
         
