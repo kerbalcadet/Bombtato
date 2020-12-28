@@ -66,3 +66,5 @@ function BOMB:MakeSpectator(ply)
     ply:SetRenderMode(RENDERMODE_TRANSCOLOR)
     ply:Spawn()
 end
+
+hook.Add("PlayerCanPickupWeapon", "NoSpectatorPickup", function(ply, weapon) if ply:Team() == TEAM_SPECTATOR then return false end end)
