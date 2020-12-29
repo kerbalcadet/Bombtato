@@ -16,7 +16,7 @@ concommand.Add("bomb_teamchange", function(ply) --TEMP
 
     repeat
         curteam = math.random(1, BOMB_NUMTEAMS:GetInt())
-    until(curteam ~= ply:Team())
+    until((curteam ~= ply:Team()) and (not table.IsEmpty(BOMB:GetTeamSpawns()[curteam])))
 
     ply:SetTeam(curteam)
 end)
