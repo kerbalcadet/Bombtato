@@ -14,3 +14,9 @@ function BOMB:RemoveTeam(teamindex)
     BOMB:DelTeamSpawns(teamindex)
     for _, ply in pairs(team.GetPlayers(teamindex)) do BOMB:MakeSpectator(ply) end
 end
+
+function GM:PlayerShouldTakeDamage(ply, attacker)
+    if BOMB_TEAMKILL:GetBool() or (ply:Team() ~= attacker:Team()) then return true
+    else return false
+    end
+end
