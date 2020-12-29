@@ -115,6 +115,7 @@ function ENT:Detonate()
     husk:SetColor(Color(50,50,50))
     husk:Spawn()
 
+    PrintMessage(4, team.GetName(self:GetTeam()).." has been eliminated.")
     BOMB:RemoveTeam(self:GetTeam())
     self:Remove()
 
