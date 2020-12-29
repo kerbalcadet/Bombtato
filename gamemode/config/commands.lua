@@ -12,6 +12,8 @@ concommand.Add("bomb_restart", function(ply, cmd, args)
 end)
 
 concommand.Add("bomb_teamchange", function(ply) --TEMP
+    if #(BOMB:GetBombs()) <= 1 then return end
+    
     local curteam = ply:Team()
 
     repeat
