@@ -12,6 +12,26 @@ local function SortSpawns(bomb, spawns)
     return tbl
 end
 
+local function GetFurthestSpawn(spawns, bombs)
+    local maxdist, maxindex = 0, 1
+
+    for spindex, spawn in pairs(spawns) do
+        local dist = 0
+
+        for _, bomb in pairs(bombs) do
+            --dist = dist + (bomb:GetPos() - spawn:GetPos()):LengthSqr()
+            dist = dist + bomb:GetPos():Distance(spawn:GetPos())
+        end
+
+        if dist > maxdist then
+            maxdist = dist
+            maxindex = spindex
+        end
+    end
+
+    return maxindex
+end
+
 function BOMB:InitSpawns()
     table.Empty(bspawns)
     table.Empty(tspawns)
@@ -27,7 +47,7 @@ function BOMB:InitSpawns()
     local dtable = SortSpawns(bspawns[1], spawns)
 
     for i = 2, nt do
-        local curspi = table.KeyFromValue(spawns, dtable[math.floor(#dtable/(i - 1))])
+        local curspi = GetFurthestSpawn(spawns, bspawns)
 
         table.insert(bspawns, spawns[curspi])
         table.remove(spawns, curspi)
