@@ -66,7 +66,7 @@ function ENT:SVSpawn(spawn, steam)
 end
 
 function ENT:Use(activator, caller)                                 --arm/disarm
-    if tobool(BOMB:GameOver()) then return end
+    if tobool(BOMB:GameOver()) or (activator:Team() == TEAM_SPECTATOR) then return end
 
     if not caller:IsValid() or not caller:IsPlayer() then return end
 
@@ -108,8 +108,6 @@ end
 function ENT:Detonate()
     if tobool(BOMB:GameOver()) then return end
     
-    BOMB:DelBomb(self)
-    
     local husk = ents.Create("prop_physics")
     husk:SetModel("models/props_junk/TrashDumpster01a.mdl")
     husk:SetPos(self:GetPos() + Vector(0, 0, 10))
@@ -117,7 +115,9 @@ function ENT:Detonate()
     husk:SetColor(Color(50,50,50))
     husk:Spawn()
 
-    self:Remove()    
+    PrintMessage(4, team.GetName(self:GetTeam()).." has been eliminated.")
+    BOMB:RemoveTeam(self:GetTeam())
+    self:Remove()
 
     local data = EffectData()
     data:SetOrigin(husk:GetPos())

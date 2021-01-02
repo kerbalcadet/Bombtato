@@ -6,10 +6,10 @@ function BOMB:Start()
     BOMB:InitSpawns()
     BOMB:SpawnBombs()
 
+    if BOMB_DBG_SPAWNS:GetBool() then BOMB:DebugSpawns() end
+
     for _, ply in pairs(player.GetAll()) do
         BOMB:SelectTeam(ply)
-        ply:StripWeapons()
-        ply:StripAmmo()
         ply:Spawn()
     end
 
@@ -27,7 +27,7 @@ function BOMB:End(teamindex)
 
         game.CleanUpMap(false)
 
-        for _, ply in pairs(player.GetAll()) do ply:SetTeam(TEAM_UNASSIGNED) end
+        for _, ply in pairs(player.GetAll()) do ply:SetTeam(TEAM_SPECTATOR) end
         BOMB:Start()
     end)
 end
