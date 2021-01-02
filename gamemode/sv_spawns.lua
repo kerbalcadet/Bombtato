@@ -20,7 +20,6 @@ local function GetFurthestSpawn(spawns, bombs)
         local dist = 0
 
         for _, bomb in pairs(bombs) do
-            --dist = dist + (bomb:GetPos() - spawn:GetPos()):LengthSqr()
             dist = dist + bomb:GetPos():Distance(spawn:GetPos())
         end
 
@@ -41,21 +40,24 @@ function BOMB:InitSpawns()
 
     local spawns = ents.FindByClass("info_player_*")
     local nt = BOMB_NUMTEAMS:GetInt()
-    local spi = math.random(1, #spawns)
-    local sp = spawns[spi]
     -- end init
 
     -- set bomb spawns
-    table.insert(bspawns, sp)
-    table.remove(spawns, spi)
+    for i = 1, nt do
+        local rti = BOMB:GetTeams()[i]
+        local spi, sp
 
-    local dtable = SortSpawns(bspawns[1], spawns)
+        if table.IsEmpty(bspawns) then
+            spi = math.random(1, #spawns)
+        else
+            spi = GetFurthestSpawn(spawns, bspawns)
+        end
 
-    for i = 2, nt do
-        local curspi = GetFurthestSpawn(spawns, bspawns)
-
-        table.insert(bspawns, spawns[curspi])
-        table.remove(spawns, curspi)
+        sp = spawns[spi]
+        
+        --table.insert(bspawns, rti, sp)
+        bspawns[rti] = sp
+        table.remove(spawns, spi)
     end
     -- end set bomb spawns
 
@@ -66,11 +68,16 @@ function BOMB:InitSpawns()
 
     -- set team spawns
     local ti = 1
+
     while(not table.IsEmpty(spawns)) do
-        if not tspawns[ti] then tspawns[ti] = {} end
-        dtable = SortSpawns(bspawns[ti], spawns)
-        table.insert(tspawns[ti], dtable[1])
+        local rti = BOMB:GetTeams()[ti]
+        local dtable = SortSpawns(bspawns[rti], spawns)
+                
+        if not tspawns[rti] then tspawns[rti] = {} end
+        
+        table.insert(tspawns[rti], dtable[1])
         table.remove(spawns, table.KeyFromValue(spawns, dtable[1]))
+
         ti = ti % nt + 1
     end
     -- end set team spawns
@@ -90,11 +97,13 @@ function BOMB:DebugSpawns()
             spmdl:SetMaterial("models/debug/debugwhite")
 
             for i = 1, #tsp do
-                if not dbgspawns[i] then dbgspawns[i] = {} end
-                for j = 1, #(tsp[i]) do
-                    if tsp[i][j] == spawn then
-                        spmdl:SetColor(team.GetColor(i))
-                        table.insert(dbgspawns[i], spmdl)
+                local rti = BOMB:GetTeams()[i]
+
+                if not dbgspawns[rti] then dbgspawns[rti] = {} end
+                for j = 1, #(tsp[rti]) do
+                    if tsp[rti][j] == spawn then
+                        spmdl:SetColor(team.GetColor(rti))
+                        table.insert(dbgspawns[rti], spmdl)
                         break
                     end
                 end
