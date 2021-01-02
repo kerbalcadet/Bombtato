@@ -65,21 +65,24 @@ function BOMB:InitSpawns()
 
     math.randomseed(CurTime())
     local nt = BOMB_NUMTEAMS:GetInt()
-    local spi = math.random(1, #spawns)
-    local sp = spawns[spi]
     -- end init
 
     -- set bomb spawns
-    table.insert(bspawns, sp)
-    table.remove(spawns, spi)
+    for i = 1, nt do
+        local rti = BOMB:GetTeams()[i]
+        local spi, sp
 
-    local dtable = SortSpawns(bspawns[1], spawns)
+        if table.IsEmpty(bspawns) then
+            spi = math.random(1, #spawns)
+        else
+            spi = GetFurthestSpawn(spawns, bspawns)
+        end
 
-    for i = 2, nt do
-        local curspi = GetFurthestSpawn(spawns, bspawns)
-
-        table.insert(bspawns, spawns[curspi])
-        table.remove(spawns, curspi)
+        sp = spawns[spi]
+        
+        --table.insert(bspawns, rti, sp)
+        bspawns[rti] = sp
+        table.remove(spawns, spi)
     end
     -- end set bomb spawns
 
@@ -90,11 +93,16 @@ function BOMB:InitSpawns()
 
     -- set team spawns
     local ti = 1
+
     while(not table.IsEmpty(spawns)) do
-        if not tspawns[ti] then tspawns[ti] = {} end
-        dtable = SortSpawns(bspawns[ti], spawns)
-        table.insert(tspawns[ti], dtable[1])
+        local rti = BOMB:GetTeams()[ti]
+        local dtable = SortSpawns(bspawns[rti], spawns)
+                
+        if not tspawns[rti] then tspawns[rti] = {} end
+        
+        table.insert(tspawns[rti], dtable[1])
         table.remove(spawns, table.KeyFromValue(spawns, dtable[1]))
+
         ti = ti % nt + 1
     end
     -- end set team spawns

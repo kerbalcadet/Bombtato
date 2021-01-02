@@ -3,6 +3,7 @@ local gameover = false
 function BOMB:GameOver() return gameover end
 
 function BOMB:Start()
+    BOMB:InitTeams()
     BOMB:InitSpawns()
     BOMB:SpawnBombs()
 
