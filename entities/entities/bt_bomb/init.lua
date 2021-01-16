@@ -70,17 +70,21 @@ function ENT:Use(activator, caller)                                 --arm/disarm
 
     if not caller:IsValid() or not caller:IsPlayer() then return end
 
+    
+    caller:GetActiveWeapon():SetNextPrimaryFire(CurTime() + 0.4)
+
     local arming = self:GetArming()
     local armed = self:GetArmed()
     local sameteam = caller:Team() == self:GetTeam()
 
     if (armed and sameteam) or (not armed and (not sameteam or BOMB_TEAM_ARM:GetBool())) then
-
+        if self:GetArming() and (CurTime() - self.a_init > 0.2) then caller:GetActiveWeapon():SendWeaponAnim(ACT_VM_DRAW)
+        end
+        
         if not arming then 
             self.a_init = CurTime()
             self:SetArming(true)
-            --self.cursnd = self:StartLoopingSound("arming")
-
+            caller:GetActiveWeapon():SendWeaponAnim(ACT_VM_IDLE_TO_LOWERED)
         elseif CurTime() - self.a_init > BOMB_ARMTIME:GetInt() then
             self:SetArmed(not armed)
             self:SetArming(false)
