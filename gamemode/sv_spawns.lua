@@ -14,17 +14,25 @@ local function SortSpawns(bomb, spawns)
 end
 
 local function GetFurthestSpawn(spawns, bombs)
+    -- Attempt to spread bombs evenly by maximizing total distance between each bomb and all other bombs present.
+    -- Adjust spread by eliminating proposed spawn location(s) whose distance from the closest present bomb is 
+    -- less than half the distance from the next closest bomb
     local maxdist, maxindex = 0, 1
 
     for spindex, spawn in pairs(spawns) do
         local dist = 0
+        local bdists = {}
 
         for _, bomb in pairs(bombs) do
-            --dist = dist + (bomb:GetPos() - spawn:GetPos()):LengthSqr()
             dist = dist + bomb:GetPos():Distance(spawn:GetPos())
+            table.insert(bdists, bomb:GetPos():Distance(spawn:GetPos()))
         end
 
-        if dist > maxdist then
+        table.sort(bdists) -- sort table of distances from other present bombs in ascending order
+        
+        -- if there's only one bomb present, or total distance from all bombs is more than last total and 
+        -- distance to closest bomb >= half the distance to the next closest bomb
+        if (#bdists < 2) or ((dist > maxdist) and not (bdists[1] < (bdists[2]/2))) then
             maxdist = dist
             maxindex = spindex
         end
