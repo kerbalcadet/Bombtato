@@ -15,5 +15,5 @@ function GM:Initialize()
     math.randomseed(CurTime())
 end
 
-hook.Add("InitPostEntity", "init", function() BOMB:Start() end)
+hook.Add("InitPostEntity", "init", function() timer.Simple(10, function() BOMB:Start() end ) end)
 
