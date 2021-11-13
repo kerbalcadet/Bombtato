@@ -3,8 +3,8 @@ local tspawns = {}
 local dbgspawns = {}
 
 local function SortSpawns(bomb, spawns)
-    local tbl = spawns
-    local dists = {}
+    local tbl, dists = spawns, {}
+
     for k, v in pairs(spawns) do
        dists[v] = (v:GetPos() - bomb:GetPos()):LengthSqr()
     end
@@ -32,28 +32,27 @@ local function GetFurthestSpawn(spawns, bombs)
     return maxindex
 end
 
-function BOMB:InitSpawns()
-    --for _, ent in pairs(ents.FindByClass( "info_player_*" )) do ent:Remove() end
-
-    -- init
-    table.Empty(bspawns)
-    table.Empty(tspawns)
-    table.Empty(dbgspawns)
-
-    -- new junk
-    -- many maps don't have enough spawns to 'spread the wealth' among bombs and spawns for every team
-    -- others (e.g. CS maps) are only two sided and ends up with pairs (or more) of bomb and team spawns right next to each other
-    -- without making custom spawns manually, we can instead use all walkable parts of the map as potential spawns, identified by the CNavAreas (from the NAV mesh)
-    -- of course, generally there are multiple-thousand CNavAreas, so we want to cull them quite a bit. ~20 spawns a team seems good, no?
-    -- there are other issues with inaccessible areas being marked as walkable in less-developed nav meshes that will need to be solved, but this is a start
-    -- also need to work out how to properly angle the bombs when spawned, and more importantly, ensure they are not blocking key traversal areas (e.g. being placed in
-    -- in the middle of staircases as seen in gm_devtown)
+-- many maps don't have enough spawns to 'spread the wealth' among bombs and spawns for every team
+-- others (e.g. CS maps) are only two sided and ends up with pairs (or more) of bomb and team spawns right next to each other
+-- without making custom spawns manually, we can instead use all walkable parts of the map as potential spawns, identified by the CNavAreas (from the NAV mesh)
+-- of course, generally there are multiple-thousand CNavAreas, so we want to cull them quite a bit. ~20 spawns a team seems good, no?
+-- there are other issues with inaccessible areas being marked as walkable in less-developed nav meshes that will need to be solved, but this is a start
+-- also need to work out how to properly angle the bombs when spawned, and more importantly, ensure they are not blocking key traversal areas (e.g. being placed in
+-- in the middle of staircases as seen in gm_devtown)
+local function GetPotentialSpawns(nt)
     local navareas, spawns = navmesh.GetAllNavAreas(), {}
-    local maxspawns = BOMB_NUMTEAMS:GetInt()*20
-    local tracer = math.ceil(#navareas/maxspawns)
+    
+    for _, na in pairs(navareas) do
+        if (na:GetAdjacentCount() > 1) and (not na:IsUnderwater()) then table.insert(spawns, na) end
+    end
 
-    for i, na in ipairs(navareas) do
-        if i % tracer == 0 and na:GetAdjacentCount() > 1 then
+    table.CopyFromTo(spawns, navareas)
+    table.Empty(spawns)
+
+    local tracer = math.ceil(#navareas / (nt*20))
+
+    for i, na in pairs(navareas) do
+        if i % tracer == 0 then
             local newspawn = ents.Create("info_player_start")
             newspawn:SetPos(na:GetCenter())
             newspawn:DropToFloor()
@@ -61,12 +60,22 @@ function BOMB:InitSpawns()
             table.insert(spawns, newspawn)
         end
     end
-    -- end new junk
 
+    return spawns
+end
+
+function BOMB:InitSpawns()
+    -- init
     math.randomseed(CurTime())
-    local nt = BOMB_NUMTEAMS:GetInt()
+
+    table.Empty(bspawns)
+    table.Empty(tspawns)
+    table.Empty(dbgspawns)
     -- end init
 
+    local nt = BOMB_NUMTEAMS:GetInt()
+    local spawns = GetPotentialSpawns(nt)
+    
     -- set bomb spawns
     for i = 1, nt do
         local rti = BOMB:GetTeams()[i]
@@ -106,6 +115,10 @@ function BOMB:InitSpawns()
         ti = ti % nt + 1
     end
     -- end set team spawns
+
+    for _, ent in pairs(ents.FindByClass( "info_player_*" )) do 
+        if ent:CreatedByMap() then ent:Remove() end
+    end
 end
 
 function BOMB:DebugSpawns()
