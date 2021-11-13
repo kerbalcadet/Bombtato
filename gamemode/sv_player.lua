@@ -60,6 +60,12 @@ function GM:PlayerSelectSpawn(ply)
     return validspawns[math.random(1, #validspawns)]
 end
 
+hook.Add("PlayerDeath", "DropAmmoOnDeath", function(vic, inf, att)
+    local ammbox = ents.Create("bt_ammbox")
+    ammbox:SVSpawn(ply:GetPos())
+    ammbox:SetContents(vic:GetAmmo())
+end)
+
 function BOMB:MakeSpectator(ply)
     ply:SetTeam(TEAM_SPECTATOR)
     ply:GodEnable()
