@@ -53,7 +53,7 @@ function BOMB:InitSpawns()
     local tracer = math.ceil(#navareas/maxspawns)
 
     for i, na in ipairs(navareas) do
-        if i % tracer == 0 then
+        if i % tracer == 0 and na:GetAdjacentCount() > 1 then
             local newspawn = ents.Create("info_player_start")
             newspawn:SetPos(na:GetCenter())
             newspawn:DropToFloor()
