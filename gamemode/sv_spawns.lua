@@ -77,30 +77,19 @@ function BOMB:InitSpawns()
 end
 
 function BOMB:DebugSpawns()
-    -- spawn a colored monolith at each valid team spawn with the color of the team allowed to use it
-    local tsp = BOMB:GetTeamSpawns()
+    local spmdls = ents.FindByClass("bt_dbg_sp")
 
-    for _, spawn in pairs(ents.FindByClass("info_player_*")) do
-        if not table.HasValue(bspawns, spawn) then
-            local spmdl = ents.Create("prop_physics")
-            spmdl:PhysicsInit(SOLID_NONE)
-            spmdl:SetCollisionGroup(COLLISION_GROUP_WORLD)
-            spmdl:SetPos(spawn:GetPos())
-            spmdl:SetModel("models/props_wasteland/medbridge_post01.mdl")
-            spmdl:SetMaterial("models/debug/debugwhite")
-
-            for i = 1, #tsp do
-                if not dbgspawns[i] then dbgspawns[i] = {} end
-                for j = 1, #(tsp[i]) do
-                    if tsp[i][j] == spawn then
-                        spmdl:SetColor(team.GetColor(i))
-                        table.insert(dbgspawns[i], spmdl)
-                        break
-                    end
-                end
+    if(#spmdls > 0) then
+        -- delete debug spawn models
+        for _, spmdl in pairs(spmdls) do spmdl:Remove() end
+    else
+        local tsp = BOMB:GetTeamSpawns()
+        
+        for i = 1, BOMB_NUMTEAMS:GetInt(), 1 do
+            for _, sp in pairs(tsp[i]) do
+                local spmdl = ents.Create("bt_dbg_sp")
+                spmdl:SVSpawn(sp, i)
             end
-            
-            spmdl:Spawn()
         end
     end
 end
