@@ -4,7 +4,6 @@ BOMB_DMGRAD = CreateConVar("bomb_dmgrad", "500", FCVAR_NONE, "Radius in units of
 BOMB_NOTIFY = CreateConVar("bomb_notify", "1", FCVAR_NONE, "Notify team when bomb armed", 0, 1)
 BOMB_TEAM_ARM = CreateConVar("bomb_teamarm", "0", FCVAR_NONE, "Allow bomb to be armed by own team", 0, 1)
 BOMB_NUMTEAMS = CreateConVar("bomb_numteams", "4", FCVAR_NONE, "Number of teams", 2, 4)
-BOMB_DBG_SPAWNS = CreateConVar("bomb_dbgspawns", "0", FCVAR_NONE, "Debug team spawn locations", 0, 1)
 BOMB_TEAMKILL = CreateConVar("bomb_teamkill", "1", FCVAR_NONE, "Allow teamkill", 0, 1)
 
 concommand.Add("bomb_restart", function(ply, cmd, args)
@@ -21,4 +20,8 @@ concommand.Add("bomb_teamchange", function(ply) --TEMP
     until((curteam ~= ply:Team()) and (not table.IsEmpty(BOMB:GetTeamSpawns()[curteam])))
 
     ply:SetTeam(curteam)
+end)
+
+concommand.Add("bomb_debug_spawns", function(ply, cmd, args)
+    BOMB:DebugSpawns()
 end)
