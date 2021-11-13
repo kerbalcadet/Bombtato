@@ -6,7 +6,7 @@ local function SortSpawns(bomb, spawns)
     local tbl = spawns
     local dists = {}
     for k, v in pairs(spawns) do
-       dists[v] = (v:GetPos() - bomb:GetPos()):LengthSqr()     
+       dists[v] = (v:GetPos() - bomb:GetPos()):LengthSqr()
     end
     
     table.sort(tbl, function(a, b) return dists[a] < dists[b] end)
@@ -20,7 +20,6 @@ local function GetFurthestSpawn(spawns, bombs)
         local dist = 0
 
         for _, bomb in pairs(bombs) do
-            --dist = dist + (bomb:GetPos() - spawn:GetPos()):LengthSqr()
             dist = dist + bomb:GetPos():Distance(spawn:GetPos())
         end
 
@@ -34,12 +33,37 @@ local function GetFurthestSpawn(spawns, bombs)
 end
 
 function BOMB:InitSpawns()
+    --for _, ent in pairs(ents.FindByClass( "info_player_*" )) do ent:Remove() end
+
     -- init
     table.Empty(bspawns)
     table.Empty(tspawns)
     table.Empty(dbgspawns)
 
-    local spawns = ents.FindByClass("info_player_*")
+    -- new junk
+    -- many maps don't have enough spawns to 'spread the wealth' among bombs and spawns for every team
+    -- others (e.g. CS maps) are only two sided and ends up with pairs (or more) of bomb and team spawns right next to each other
+    -- without making custom spawns manually, we can instead use all walkable parts of the map as potential spawns, identified by the CNavAreas (from the NAV mesh)
+    -- of course, generally there are multiple-thousand CNavAreas, so we want to cull them quite a bit. ~20 spawns a team seems good, no?
+    -- there are other issues with inaccessible areas being marked as walkable in less-developed nav meshes that will need to be solved, but this is a start
+    -- also need to work out how to properly angle the bombs when spawned, and more importantly, ensure they are not blocking key traversal areas (e.g. being placed in
+    -- in the middle of staircases as seen in gm_devtown)
+    local navareas, spawns = navmesh.GetAllNavAreas(), {}
+    local maxspawns = BOMB_NUMTEAMS:GetInt()*20
+    local tracer = math.ceil(#navareas/maxspawns)
+
+    for i, na in ipairs(navareas) do
+        if i % tracer == 0 then
+            local newspawn = ents.Create("info_player_start")
+            newspawn:SetPos(na:GetCenter())
+            newspawn:DropToFloor()
+            newspawn:Spawn()
+            table.insert(spawns, newspawn)
+        end
+    end
+    -- end new junk
+
+    math.randomseed(CurTime())
     local nt = BOMB_NUMTEAMS:GetInt()
     local spi = math.random(1, #spawns)
     local sp = spawns[spi]
