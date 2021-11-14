@@ -61,9 +61,11 @@ function GM:PlayerSelectSpawn(ply)
 end
 
 hook.Add("PlayerDeath", "DropAmmoOnDeath", function(vic, inf, att)
-    local ammbox = ents.Create("bt_ammbox")
-    ammbox:SVSpawn(vic:GetPos())
-    ammbox:SetContents(vic:GetAmmo())
+    if BOMB_DROP_AMM:GetBool() then
+        local ammbox = ents.Create("bt_ammbox")
+        ammbox:SVSpawn(vic:GetPos())
+        ammbox:SetContents(vic:GetAmmo())
+    end
 end)
 
 function BOMB:MakeSpectator(ply)
