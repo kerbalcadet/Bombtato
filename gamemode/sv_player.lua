@@ -18,7 +18,7 @@ end
 
 function GM:PlayerInitialSpawn(ply)
     ply:AllowFlashlight(true)
-    ply:ShouldDropWeapon(true)
+    --ply:ShouldDropWeapon(true)
     ply:SetNoCollideWithTeammates(true)
     
     BOMB:SelectTeam(ply)
@@ -59,6 +59,14 @@ function GM:PlayerSelectSpawn(ply)
     
     return validspawns[math.random(1, #validspawns)]
 end
+
+hook.Add("PlayerDeath", "DropAmmoOnDeath", function(vic, inf, att)
+    if BOMB_DROP_AMM:GetBool() then
+        local ammbox = ents.Create("bt_ammbox")
+        ammbox:SVSpawn(vic:GetPos())
+        ammbox:SetContents(vic:GetAmmo())
+    end
+end)
 
 function BOMB:MakeSpectator(ply)
     ply:SetTeam(TEAM_SPECTATOR)

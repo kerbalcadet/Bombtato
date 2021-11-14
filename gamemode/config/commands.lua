@@ -5,6 +5,7 @@ BOMB_NOTIFY = CreateConVar("bomb_notify", "1", FCVAR_NONE, "Notify team when bom
 BOMB_TEAM_ARM = CreateConVar("bomb_teamarm", "0", FCVAR_NONE, "Allow bomb to be armed by own team", 0, 1)
 BOMB_NUMTEAMS = CreateConVar("bomb_numteams", "4", FCVAR_NONE, "Number of teams", 2, 4)
 BOMB_TEAMKILL = CreateConVar("bomb_teamkill", "1", FCVAR_NONE, "Allow teamkill", 0, 1)
+BOMB_DROP_AMM = CreateConVar("bomb_drop_amm", "1", FCVAR_NONE, "Drop ammo box on death", 0, 1)
 
 concommand.Add("bomb_restart", function(ply, cmd, args)
     BOMB:End()
