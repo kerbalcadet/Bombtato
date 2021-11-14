@@ -131,9 +131,12 @@ function BOMB:DebugSpawns()
         local tsp = BOMB:GetTeamSpawns()
         
         for i = 1, BOMB_NUMTEAMS:GetInt(), 1 do
+            dbgspawns[i] = {}
+
             for _, sp in pairs(tsp[i]) do
                 local spmdl = ents.Create("bt_dbg_sp")
                 spmdl:SVSpawn(sp, i)
+                table.insert(dbgspawns[i], spmdl)
             end
         end
     end
@@ -149,7 +152,7 @@ end
 
 function BOMB:DelTeamSpawns(teamindex)
     table.Empty(tspawns[teamindex]) -- we don't actually remove the table, because that shifts the other team spawn tables by index and messes up the other teams' spawnpoints
-    if BOMB_DBG_SPAWNS:GetBool() then
+    if not table.IsEmpty(dbgspawns[teamindex]) then
         for _, spmdl in pairs(dbgspawns[teamindex]) do
             spmdl:Remove()
         end
