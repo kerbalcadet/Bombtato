@@ -7,14 +7,22 @@ local contents = {}
 
 function ENT:Initialize()
     self:SetModel("models/Items/BoxMRounds.mdl")
-    self:PhysicsInit(SOLID_NONE)
-    self:SetMoveType(MOVETYPE_NONE)
-    self:SetSolid(SOLID_NONE)
+    self:SetSolid(SOLID_BBOX)
+    self:SetTrigger(true)
+    self:PhysWake()
+    self:SetNotSolid(true)
+
+    local timername = "lifetime"..tostring(self)
+
+    timer.Create(timername, 15, 1, function()
+        self:Remove()
+    end)
 end
 
 function ENT:SVSpawn(pos)
     self:Spawn()
     self:SetPos(pos)
+    self:DropToFloor()
 
     constraint.Keepupright(self, self:GetAngles(), 0, 99999)
 end
@@ -26,6 +34,7 @@ function ENT:Touch(ent)
         end
     end
 
+    timer.Remove("lifetime"..tostring(self))
     self:Remove()
 end
 
