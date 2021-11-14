@@ -18,7 +18,7 @@ end
 
 function GM:PlayerInitialSpawn(ply)
     ply:AllowFlashlight(true)
-    ply:ShouldDropWeapon(true)
+    --ply:ShouldDropWeapon(true)
     ply:SetNoCollideWithTeammates(true)
     
     BOMB:SelectTeam(ply)
@@ -62,7 +62,7 @@ end
 
 hook.Add("PlayerDeath", "DropAmmoOnDeath", function(vic, inf, att)
     local ammbox = ents.Create("bt_ammbox")
-    ammbox:SVSpawn(ply:GetPos())
+    ammbox:SVSpawn(vic:GetPos())
     ammbox:SetContents(vic:GetAmmo())
 end)
 
