@@ -13,7 +13,7 @@ include("sv_spawns.lua")
 include("bombtato/content/colors.lua")
 
 function GM:Initialize()
-    math.randomseed(CurTime())
+    math.randomseed(os.time())
 end
 
 hook.Add("InitPostEntity", "init", function() BOMB:Start() end)
