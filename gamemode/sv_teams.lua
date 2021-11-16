@@ -1,3 +1,17 @@
+function BOMB:InitTeams()
+    local colors = {}
+
+    for i = 1, BOMB_NUMTEAMS:GetInt() do
+        repeat
+            color = GetRandomColor()
+        until(not table.HasValue(colors, color))
+
+        table.insert(colors, color)
+
+        team.SetUp(i, color[1], color[2], true)
+    end
+end
+
 function BOMB:SelectTeam(ply)
     local nt = BOMB_NUMTEAMS:GetInt()
     local plys = player.GetAll()
