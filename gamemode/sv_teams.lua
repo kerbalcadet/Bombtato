@@ -5,11 +5,23 @@ function BOMB:GetTeams() return teams end
 function BOMB:InitTeams()
     table.Empty(teams)
     
+    local allteams, colors = {}, {}
     local nt = BOMB_NUMTEAMS:GetInt()
-    local allteams = {1, 2, 3, 4}
 
     for i = 1, nt do
-        local ti = math.random(1, #allteams)
+        table.insert(allteams, i)
+
+        repeat
+            color = GetRandomColor()
+        until(not table.HasValue(colors, color))
+
+        table.insert(colors, color)
+
+        team.SetUp(i, color[1], color[2], true)
+    end
+
+    for i = 1, nt do
+        local ti = math.random(#allteams)
         local t = allteams[ti]
 
         table.insert(teams, t)
