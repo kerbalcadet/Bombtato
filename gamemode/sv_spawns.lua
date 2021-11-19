@@ -66,7 +66,6 @@ end
 
 function BOMB:InitSpawns()
     -- init
-    math.randomseed(CurTime())
 
     table.Empty(bspawns)
     table.Empty(tspawns)
