@@ -43,7 +43,7 @@ local function GetPotentialSpawns(nt)
     local navareas, spawns = navmesh.GetAllNavAreas(), {}
     
     for _, na in pairs(navareas) do
-        if (na:GetAdjacentCount() > 1) and (not na:IsUnderwater()) then table.insert(spawns, na) end
+        if (na:GetAdjacentCount() > 1) and (na:GetAttributes() <= 4096) and (not na:IsUnderwater()) then table.insert(spawns, na) end
     end
 
     table.CopyFromTo(spawns, navareas)
